@@ -1,5 +1,5 @@
 
-package trywithkids.domain;
+package trywithkids.gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,18 +9,18 @@ import javafx.scene.layout.GridPane;
 import trywithkids.domain.TryWithKids;
 
 
-public class GUIview {
+public class GUIadd {
     
     private TryWithKids tryWithKids;
     
-    public GUIview(TryWithKids tryWithKids) {
+    public GUIadd(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
     public Parent getNakyma() {
         GridPane setting = new GridPane();
         
-        Label info = new Label("This view-window is still under construction");
+        Label info = new Label("This add-window is still under construction");
         
         setting.setAlignment(Pos.CENTER);
         setting.setVgap(10);

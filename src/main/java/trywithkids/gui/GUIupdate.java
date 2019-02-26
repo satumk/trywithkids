@@ -1,5 +1,5 @@
 
-package trywithkids.domain;
+package trywithkids.gui;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

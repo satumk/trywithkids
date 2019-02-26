@@ -1,6 +1,12 @@
 
 package trywithkids.domain;
 
+import trywithkids.gui.GUIadd;
+import trywithkids.gui.GUIview;
+import trywithkids.gui.GUIupdate;
+import trywithkids.gui.GUIsearch;
+import trywithkids.gui.GUIlist;
+import trywithkids.gui.GUIdelete;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +18,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import trywithkids.domain.TryWithKids;
 
 public class GUI extends Application {
     
@@ -68,9 +73,9 @@ public class GUI extends Application {
 
         window.show();
     }
-    
+    /*
     public static void main(String[] args) {
         launch(GUI.class);
     }
-    
+    */
 }

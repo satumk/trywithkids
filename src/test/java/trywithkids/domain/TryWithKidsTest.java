@@ -14,6 +14,7 @@ public class TryWithKidsTest {
         m = new TryWithKids();
     }
 
+    /*
     @Test
     public void parametritonKonstruktoriAlkuarvoNolla() {
         assertEquals(0, m.lukema());
@@ -36,5 +37,5 @@ public class TryWithKidsTest {
         m.lisaa();
         assertEquals(1, m.lukema());
     }
-
+*/
 }

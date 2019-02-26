@@ -5,9 +5,11 @@ import java.util.List;
 
 
 public class TryWithKids {
-    //Ilmentymä muistaa tapahtumia-kentän suurimman arvon
+    
         private List<Experiment> experiments;
         
+        
+        /*
 	private int tapahtumia, maxTapahtumia;
 	public TryWithKids(int alkuarvo){
 		if(alkuarvo < 0)
@@ -34,5 +36,6 @@ public class TryWithKids {
 	public String toString(){
 		return "Laskurin lukema on " + this.tapahtumia + " (max. " + this.maxTapahtumia +")";
 	}
+*/
 
 }
