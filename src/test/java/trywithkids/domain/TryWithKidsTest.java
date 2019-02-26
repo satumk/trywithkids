@@ -36,9 +36,5 @@ public class TryWithKidsTest {
         m.lisaa();
         assertEquals(1, m.lukema());
     }
-   
-    @Test
-    public void tamaEpaonnistuu() {
-        fail();
-    }
+
 }
