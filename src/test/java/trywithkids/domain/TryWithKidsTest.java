@@ -14,12 +14,18 @@ public class TryWithKidsTest {
         m = new TryWithKids();
     }
 
-    /*
+    
     @Test
-    public void parametritonKonstruktoriAlkuarvoNolla() {
-        assertEquals(0, m.lukema());
+    public void noExperimentsInBeginning() {
+        assertEquals(0, m.listSize());
     }
-
+    
+    @Test
+    public void starterExperiments() {
+        m.addStarterExperiments();
+        assertEquals(4, m.listSize());
+    }
+/*
     @Test
     public void alkuarvoEiNegatiivinen() {
         TryWithKids m2 = new TryWithKids(0);

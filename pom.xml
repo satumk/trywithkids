@@ -76,6 +76,6 @@
               <groupId>xyz.morphia.morphia</groupId>
               <artifactId>core</artifactId>
               <version>1.4.0</version>
-          </dependency>
+        </dependency> 
     </dependencies>
 </project>

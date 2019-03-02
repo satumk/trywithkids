@@ -1,5 +1,5 @@
 
-package trywithkids.domain;
+package trywithkids.gui;
 
 import trywithkids.gui.GUIadd;
 import trywithkids.gui.GUIview;
@@ -18,17 +18,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import trywithkids.domain.TryWithKids;
 
 public class GUI extends Application {
     
     private TryWithKids tryWithKids;
     
+    
+    @Override
     public void init() throws Exception {
         this.tryWithKids = new TryWithKids();
     }
 
     @Override
-    public void start(Stage window) throws Exception {
+    public void start(Stage window) /*throws Exception */{
+        this.tryWithKids = new TryWithKids();
         window.setTitle("Try with kids");
         
         //create subscenes

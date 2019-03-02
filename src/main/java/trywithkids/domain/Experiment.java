@@ -2,26 +2,50 @@
 package trywithkids.domain;
 
 import java.util.List;
+import org.bson.types.ObjectId;
+import xyz.morphia.annotations.Entity;
+import xyz.morphia.annotations.Field;
+import xyz.morphia.annotations.Id;
+import xyz.morphia.annotations.Index;
+import xyz.morphia.annotations.Indexes;
+import static xyz.morphia.utils.IndexType.ASC;
 
-class Experiment {
-    private Integer id;
+@Entity("experiments")
+@Indexes({
+    @Index(value = "topic", fields = @Field("topic")),
+    @Index(value = "subject", fields = @Field("subject")),
+    @Index(value = "duration", fields = @Field("duration")),
+    @Index(value = "materials", fields = @Field("materials"))
+})
+
+public class Experiment {
+    @Id
+    private ObjectId id;
     private String subject;
     private String topic;
     private Integer duration;
+    private String waitTime;
     private List<String> materials;
     private String directions;
+    private String notes;
     private String theScience;
     
-    public Experiment(String subject, String topic, Integer duration, List<String> materials, String directions, String theScience) {
+    public Experiment(String subject, String topic, Integer duration, String waitTime, List<String> materials, String directions, String notes, String theScience) {
         this.subject = subject;
         this.topic = topic;
         this.duration = duration;
+        this.waitTime = waitTime;
         this.materials = materials;
         this.directions = directions;
+        this.notes = notes;
         this.theScience = theScience;
     }
+
+    public Experiment() {
+
+    }
     
-    public Integer getId() {
+    public ObjectId getId() {
         return id;
     }
     public String getSubject() {
@@ -48,7 +72,7 @@ class Experiment {
         return theScience;
     }
 
-    public void setId(Integer id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
     
@@ -76,14 +100,43 @@ class Experiment {
         this.theScience = theScience;
     }
     
-    @Override
-    public String toString() {
-        String info = this.subject + "\n" + this.id + " - " + this.topic + "\n" 
-                + this.duration + "\nMaterials:\n";
+    public void setWaitTime(String waitTime) {
+        this.waitTime = waitTime;
+    }
+
+    public String getWaitTime() {
+        return waitTime;
+    }
+    
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+    
+    public String getNotes() {
+        return this.notes;
+    }
+    
+    public String shortInfo() {
+        String info = "Experimet: " + this.id + " - " + this.topic + "\nDuration of experiment: "
+                + this.duration + "minutes\nWaiting time: " + this.waitTime + "\nMaterials: ";
         
         for (String s : this.materials) {
             info += "    " + s.toString() + "\n";
         }
+        
+        return info;
+    }
+    
+    @Override
+    public String toString() {
+        String info = "Subject: " + this.subject + "\nExperimet: " + this.id + " - " + this.topic + "\nDuration of experiment: " 
+                + this.duration + "minutes\nWaiting time: " + this.waitTime + "\nMaterials: ";
+        
+        for (String s : this.materials) {
+            info += "    " + s.toString() + "\n";
+        }
+        
+        info += "Directions: " + this.directions + "\nNotes on this experiment: + " + this.notes + "\nThe Science: " + this.theScience;
         
         return info;
     }
