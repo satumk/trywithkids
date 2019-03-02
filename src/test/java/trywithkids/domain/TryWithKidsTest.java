@@ -40,16 +40,80 @@ public class TryWithKidsTest {
     }
     
     @Test
-    public void sizeOfDatabase() {
+    public void getExperiments() {
         t.addStarterExperiments();
-        t.addStartersToDatabase();
-        assertEquals(4, t.databaseSize());
+        assertEquals(4, t.getExperiments().size());
+    }
+    
+    @Test
+    public void saveOneToDatabase() {
+        t.clearDatabase();
+        t.addStarterExperiments();
+        Experiment one = t.getExperiments().get(0);
+        t.saveToDatabase(one);
+        assertEquals(1, t.databaseSize());
     }
     
     @Test
     public void clearDatabase() {
         t.clearDatabase();
         assertEquals(0, t.databaseSize());
+    }
+    
+    @Test
+    public void sizeOfDatabase() {
+        t.clearDatabase();
+        t.addStarterExperiments();
+        t.addStartersToDatabase();
+        assertEquals(4, t.databaseSize());
+    }
+    
+    @Test
+    public void findAll() {
+        t.clearDatabase();
+        t.addStarterExperiments();
+        t.addStartersToDatabase();
+        assertEquals(4, t.findAll().size());
+    }
+    
+    @Test
+    public void setExperimentTopic() {
+        
+    }
+    
+    @Test
+    public void setExperimentSubject() {
+        
+    }
+    
+    @Test
+    public void setExperimentDuration() {
+        
+    }
+    
+    @Test
+    public void setExperimentWaitTime() {
+        
+    }
+    
+    @Test
+    public void setExperimentMaterials() {
+        
+    }
+    
+    @Test
+    public void setExperimentDirections() {
+        
+    }
+    
+    @Test
+    public void setExperimentTheScience() {
+        
+    }
+    
+    @Test
+    public void setExperimentNotes() {
+        
     }
 
 }
