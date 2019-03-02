@@ -43,6 +43,10 @@ public class TryWithKids {
         }
     }
     
+    public void clearDatabase() {
+        this.database.deleteAllDatabase();
+    }
+    
     public void addStarterExperiments() {
         Experiment one = new Experiment();
         one.setSubject("Biology");

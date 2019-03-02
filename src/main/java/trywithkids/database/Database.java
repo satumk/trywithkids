@@ -29,7 +29,10 @@ public class Database {
         return experiments;
     }
     
-    
+    public void deleteAllDatabase() {
+        Query<Experiment> queryDelete = datastore.createQuery(Experiment.class);
+        datastore.delete(queryDelete);
+    }
 }
 
 

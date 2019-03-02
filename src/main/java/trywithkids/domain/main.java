@@ -21,14 +21,15 @@ public class main {
         Database database = new Database(morphia, datastore);
         
         TryWithKids trywithkids = new TryWithKids(database);
+        
+        trywithkids.clearDatabase();
+        
         trywithkids.addStarterExperiments();
         
         List<Experiment> experiments = trywithkids.getExperiments();
         
         for (Experiment exp : experiments) {
             trywithkids.saveToDatabase(exp);
-            //database.save(exp);
-            System.out.println("succeeded");
         }
         
         List<Experiment> fromDatabase = database.findAll();
@@ -36,7 +37,8 @@ public class main {
         for (Experiment exp : fromDatabase) {
             System.out.println(exp.shortInfo());
         }
-        GUI kayttis = new GUI();
+        
+        GUI kayttis = new GUI(trywithkids);
         //launch(GUI.class);
         
         

@@ -18,30 +18,37 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import trywithkids.database.Database;
 import trywithkids.domain.TryWithKids;
+import xyz.morphia.Datastore;
+import xyz.morphia.Morphia;
 
 public class GUI extends Application {
     
-    private TryWithKids tryWithKids;
+    private TryWithKids trywithkids;
     
+    public GUI(TryWithKids trywithkids) {
+        this.trywithkids = trywithkids;
+    }
     
+    /*
     @Override
     public void init() throws Exception {
-        this.tryWithKids = new TryWithKids();
+        this.trywithkids = new TryWithKids();
     }
-
+*/
     @Override
     public void start(Stage window) /*throws Exception */{
-        this.tryWithKids = new TryWithKids();
+        //this.trywithkids = new TryWithKids();
         window.setTitle("Try with kids");
         
         //create subscenes
-        GUIadd add = new GUIadd(tryWithKids);
-        GUIlist list = new GUIlist(tryWithKids);
-        GUIsearch search = new GUIsearch(tryWithKids);
-        GUIupdate update = new GUIupdate(tryWithKids);
-        GUIdelete delete = new GUIdelete(tryWithKids);
-        GUIview view = new GUIview(tryWithKids);
+        GUIadd add = new GUIadd(trywithkids);
+        GUIlist list = new GUIlist(trywithkids);
+        GUIsearch search = new GUIsearch(trywithkids);
+        GUIupdate update = new GUIupdate(trywithkids);
+        GUIdelete delete = new GUIdelete(trywithkids);
+        GUIview view = new GUIview(trywithkids);
         
         //create the menu and its buttons
         HBox menu = new HBox();
@@ -77,9 +84,5 @@ public class GUI extends Application {
 
         window.show();
     }
-    /*
-    public static void main(String[] args) {
-        launch(GUI.class);
-    }
-    */
+
 }
