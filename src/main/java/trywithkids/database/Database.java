@@ -13,21 +13,20 @@ public class Database {
     private Morphia morphia;
     private Datastore datastore;
     
-    public Database() {
-        this.morphia = new Morphia();
-        morphia.mapPackage("trywithkids.domain");
-        morphia.mapPackage("trywithkids.gui");
-        this.datastore = morphia.createDatastore(new MongoClient(), "experiments");
-        datastore.ensureIndexes();
+    public Database(Morphia morphia, Datastore datastore) {
+        this.morphia = morphia;
+        this.datastore = datastore;
     }
     
     public void save(Experiment experiment) {
         datastore.save(experiment);
     }
 
-    public void findAll() {
+    public List<Experiment> findAll() {
         Query<Experiment> query = datastore.createQuery(Experiment.class);
         List<Experiment> experiments = query.asList();
+         
+        return experiments;
     }
     
     

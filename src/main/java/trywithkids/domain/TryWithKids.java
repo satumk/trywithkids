@@ -3,20 +3,45 @@ package trywithkids.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import trywithkids.database.Database;
 
 
 public class TryWithKids {
     private List<Experiment> experiments;
+    private Database database;
     
-    public TryWithKids() {
+    public TryWithKids(Database database) {
         this.experiments = new ArrayList<>();
+        this.database = database;
     }
     
     public int listSize() {
         return this.experiments.size();
     }
     
+    public void saveToDatabase(Experiment experiment) {
+        this.database.save(experiment);
+    }
     
+    public List<Experiment> findAll() {
+        List<Experiment> fromDatabase = this.database.findAll();
+        return fromDatabase;
+    }
+    
+    public int databaseSize() {
+        List<Experiment> fromDatabase = this.database.findAll();
+        return fromDatabase.size();
+    }
+    
+    public List<Experiment> getExperiments() {
+        return this.experiments;
+    }
+    
+    public void addStartersToDatabase() {
+        for (Experiment experiment : this.experiments) {
+            this.database.save(experiment);
+        }
+    }
     
     public void addStarterExperiments() {
         Experiment one = new Experiment();

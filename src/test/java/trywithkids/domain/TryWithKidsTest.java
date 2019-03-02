@@ -1,6 +1,7 @@
 
 package trywithkids.domain;
 
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -25,23 +26,17 @@ public class TryWithKidsTest {
         m.addStarterExperiments();
         assertEquals(4, m.listSize());
     }
-/*
+    
     @Test
-    public void alkuarvoEiNegatiivinen() {
-        TryWithKids m2 = new TryWithKids(0);
-        assertEquals(0, m2.lukema());
+    public void toAndFromDatabase() {
+        m.addStarterExperiments();
+        assertEquals(4, m.listSize());
+        List<Experiment> experiments = m.getExperiments();
+        for (Experiment exp : experiments) {
+            m.saveToDatabase(exp);
+        }
+        assertEquals(4, m.databaseSize());
     }
-
-    @Test
-    public void alkuarvoNegatiivinen() {
-        TryWithKids m2 = new TryWithKids(-1);
-        assertEquals(0, m2.lukema());
-    }
-
-    @Test
-    public void lisaaToimii() {
-        m.lisaa();
-        assertEquals(1, m.lukema());
-    }
-*/
+    
+    
 }

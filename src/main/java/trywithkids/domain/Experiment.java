@@ -117,7 +117,7 @@ public class Experiment {
     }
     
     public String shortInfo() {
-        String info = "Experimet: " + this.id + " - " + this.topic + "\nDuration of experiment: "
+        String info = "Experiment: " + this.topic + "\nDuration of experiment: "
                 + this.duration + "minutes\nWaiting time: " + this.waitTime + "\nMaterials: ";
         
         for (String s : this.materials) {
@@ -129,7 +129,7 @@ public class Experiment {
     
     @Override
     public String toString() {
-        String info = "Subject: " + this.subject + "\nExperimet: " + this.id + " - " + this.topic + "\nDuration of experiment: " 
+        String info = "Subject: " + this.subject + "\nExperiment: " + this.id + " - " + this.topic + "\nDuration of experiment: " 
                 + this.duration + "minutes\nWaiting time: " + this.waitTime + "\nMaterials: ";
         
         for (String s : this.materials) {
