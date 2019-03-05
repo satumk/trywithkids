@@ -1,6 +1,7 @@
 
 package trywithkids.gui;
 
+import com.mongodb.MongoClient;
 import trywithkids.gui.GUIadd;
 import trywithkids.gui.GUIview;
 import trywithkids.gui.GUIupdate;
@@ -8,7 +9,9 @@ import trywithkids.gui.GUIsearch;
 import trywithkids.gui.GUIlist;
 import trywithkids.gui.GUIdelete;
 import javafx.application.Application;
+import static javafx.application.Application.launch;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,19 +30,32 @@ public class GUI extends Application {
     
     private TryWithKids trywithkids;
     
+    /*
     public GUI(TryWithKids trywithkids) {
         this.trywithkids = trywithkids;
     }
+    */
     
-    /*
     @Override
     public void init() throws Exception {
-        this.trywithkids = new TryWithKids();
+        Morphia morphia = new Morphia();
+        morphia.mapPackage("trywithkids.domain");
+        morphia.mapPackage("trywithkids.gui");
+        Datastore datastore = morphia.createDatastore(new MongoClient(), "experiments");
+        datastore.ensureIndexes();
+        Database database = new Database(morphia, datastore);
+        this.trywithkids = new TryWithKids(database);
+
+        trywithkids.clearDatabase();
+        
+        if (trywithkids.getNumber() == 0) {
+            trywithkids.addStarterExperiments(); 
+        }
+        
     }
-*/
+    
     @Override
     public void start(Stage window) /*throws Exception */{
-        //this.trywithkids = new TryWithKids();
         window.setTitle("Try with kids");
         
         //create subscenes
@@ -60,10 +76,10 @@ public class GUI extends Application {
         Button listButton = new Button("List current");
         Button searchButton = new Button("Search");
         Button deleteButton = new Button("Delete");
-        Button viewButton = new Button("View");
+        Button viewButton = new Button("Browse all");
         
         menu.getChildren().addAll(addButton, updateButton, listButton, 
-                searchButton, deleteButton);
+                searchButton, deleteButton, viewButton);
         
         //create main scene
         BorderPane setting = new BorderPane();
@@ -78,11 +94,15 @@ public class GUI extends Application {
         
         setting.setCenter(add.getNakyma());
         
-        Scene selectActionUpkeep = new Scene(setting, 700, 400);
+        Scene selectAction = new Scene(setting, 1000, 500);
                
-        window.setScene(selectActionUpkeep);
+        window.setScene(selectAction);
 
         window.show();
+    }
+    
+    public static void main(String[] args) {
+        launch(GUI.class);  
     }
 
 }

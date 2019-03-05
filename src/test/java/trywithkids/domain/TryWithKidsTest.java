@@ -25,34 +25,40 @@ public class TryWithKidsTest {
         Datastore d = m.createDatastore(new MongoClient(), "test");
         d.ensureIndexes();;
         b = new Database(m, d);
-        t = new TryWithKids(b);    
+        t = new TryWithKids(b); 
+        t.clearDatabase();
     }
 
     @Test
     public void noExperimentsInBeginning() {
-        assertEquals(0, t.listSize());
+        assertEquals(0, t.getNumber());
     }
     
     @Test
     public void starterExperiments() {
         t.addStarterExperiments();
-        assertEquals(4, t.listSize());
+        assertEquals(4, t.getNumber());
     }
     
     @Test
     public void getExperiments() {
         t.addStarterExperiments();
-        assertEquals(4, t.getExperiments().size());
+        assertEquals(4, t.databaseSize());
     }
     
     @Test
+    public void databaseEmptyInBeginning() {
+        assertEquals(0, t.findAll().size());
+    }
+    /*
+    @Test
     public void saveOneToDatabase() {
-        t.clearDatabase();
         t.addStarterExperiments();
         Experiment one = t.getExperiments().get(0);
         t.saveToDatabase(one);
         assertEquals(1, t.databaseSize());
     }
+    */
     
     @Test
     public void clearDatabase() {
@@ -62,58 +68,14 @@ public class TryWithKidsTest {
     
     @Test
     public void sizeOfDatabase() {
-        t.clearDatabase();
         t.addStarterExperiments();
-        t.addStartersToDatabase();
         assertEquals(4, t.databaseSize());
     }
     
     @Test
     public void findAll() {
-        t.clearDatabase();
         t.addStarterExperiments();
-        t.addStartersToDatabase();
         assertEquals(4, t.findAll().size());
-    }
-    
-    @Test
-    public void setExperimentTopic() {
-        
-    }
-    
-    @Test
-    public void setExperimentSubject() {
-        
-    }
-    
-    @Test
-    public void setExperimentDuration() {
-        
-    }
-    
-    @Test
-    public void setExperimentWaitTime() {
-        
-    }
-    
-    @Test
-    public void setExperimentMaterials() {
-        
-    }
-    
-    @Test
-    public void setExperimentDirections() {
-        
-    }
-    
-    @Test
-    public void setExperimentTheScience() {
-        
-    }
-    
-    @Test
-    public void setExperimentNotes() {
-        
     }
 
 }

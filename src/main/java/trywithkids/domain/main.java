@@ -9,7 +9,7 @@ import static javafx.application.Application.launch;
 import trywithkids.database.Database;
 import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
-
+/*
 public class main {
     
     public static void main(String[] args) {
@@ -19,13 +19,12 @@ public class main {
         Datastore datastore = morphia.createDatastore(new MongoClient(), "experiments");
         datastore.ensureIndexes();
         Database database = new Database(morphia, datastore);
-        
         TryWithKids trywithkids = new TryWithKids(database);
-        
+
         trywithkids.clearDatabase();
-        
         trywithkids.addStarterExperiments();
         
+        /*
         List<Experiment> experiments = trywithkids.getExperiments();
         
         for (Experiment exp : experiments) {
@@ -38,13 +37,11 @@ public class main {
             System.out.println(exp.shortInfo());
         }
         
+
         GUI kayttis = new GUI(trywithkids);
-        //launch(GUI.class);
-        
-        
-        
-        
-        
+        launch(GUI.class);  
     }
     
 }
+
+*/

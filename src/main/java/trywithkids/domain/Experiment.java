@@ -25,12 +25,12 @@ public class Experiment {
     private String topic;
     private Integer duration;
     private String waitTime;
-    private List<String> materials;
+    private String materials;
     private String directions;
     private String notes;
     private String theScience;
     
-    public Experiment(String subject, String topic, Integer duration, String waitTime, List<String> materials, String directions, String notes, String theScience) {
+    public Experiment(String subject, String topic, Integer duration, String waitTime, String materials, String directions, String notes, String theScience) {
         this.subject = subject;
         this.topic = topic;
         this.duration = duration;
@@ -60,7 +60,7 @@ public class Experiment {
         return duration;
     }
 
-    public List<String> getMaterials() {
+    public String getMaterials() {
         return materials;
     }
 
@@ -88,7 +88,7 @@ public class Experiment {
         this.duration = duration;
     }
 
-    public void setMaterials(List<String> materials) {
+    public void setMaterials(String materials) {
         this.materials = materials;
     }
 
@@ -118,26 +118,16 @@ public class Experiment {
     
     public String shortInfo() {
         String info = "Experiment: " + this.topic + "\nDuration of experiment: "
-                + this.duration + "minutes\nWaiting time: " + this.waitTime + "\nMaterials: ";
-        
-        for (String s : this.materials) {
-            info += "    " + s.toString() + "\n";
-        }
-        
+                + this.duration + " minutes\nWaiting time: " + this.waitTime + "\nMaterials: " + this.materials;
+
         return info;
     }
     
     @Override
     public String toString() {
-        String info = "Subject: " + this.subject + "\nExperiment: " + this.id + " - " + this.topic + "\nDuration of experiment: " 
-                + this.duration + "minutes\nWaiting time: " + this.waitTime + "\nMaterials: ";
-        
-        for (String s : this.materials) {
-            info += "    " + s.toString() + "\n";
-        }
-        
-        info += "Directions: " + this.directions + "\nNotes on this experiment: + " + this.notes + "\nThe Science: " + this.theScience;
-        
+        String info = "\nSubject: " + this.subject + "\nExperiment: " + this.topic + "\nDuration of experiment: " 
+                + this.duration + " minutes\nWaiting time: " + this.waitTime + "\nMaterials: " + this.materials + "\nDirections: \n"
+                + this.directions + "\nNotes on this experiment: + " + this.notes + "\nThe Science: " + this.theScience + "\n";
         return info;
     }
     
