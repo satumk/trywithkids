@@ -25,7 +25,8 @@ public class GUIadd {
     
     public Parent getNakyma() {
         ScrollPane sp = new ScrollPane();
-         
+        
+        //TextAreas and prompt texts for GUIadd
         VBox setting = new VBox();
         setting.setLayoutX(5);
         setting.setSpacing(10);
@@ -35,18 +36,18 @@ public class GUIadd {
         TextArea waitTime = new TextArea("");
         waitTime.setPromptText("Not compulsory: Is there a waiting period between the experiment and the results?");
         TextArea materials = new TextArea("");
-        materials.setPromptText("Compulsory: what materials are needed?");
+        materials.setPromptText("Compulsory: what materials are needed? Separate with // for easier viewing");
         TextArea directions = new TextArea("");
         directions.setPromptText("Compulsory: How is the experiment conducted?");
         TextArea notes = new TextArea("");
         notes.setPromptText("Not compulsory: Is there something more that can help the experimentor?");
         TextArea theScience = new TextArea("");
         theScience.setPromptText("Not compulsory, but recommended: Why does the experiment work / what is the science behind it?");
-        Button save = new Button("Save to database");
-        Label saved = new Label("Saved to database");
-        Label errorSubject = new Label("Please select a subject before saving to database");
-        Label errorDuration = new Label("Please select a duration before saving to database");
         
+        //feedback buttons and labels for successful entry
+        Button save = new Button("Save to database");
+        Label saved = new Label("Saved to database. To see your experiments, visit 'Browse all'");
+                
         // Create a togglegroup of buttons for subject
         ToggleButton biology = new ToggleButton("Biology");
         ToggleButton physics = new ToggleButton("Physics");
@@ -81,7 +82,9 @@ public class GUIadd {
         HBox duration = new HBox(five, ten, fiveteen, twenty, thirty, fourty, fifty, sixty, compulsory2);
         duration.setSpacing(10);
         
-        setting.getChildren().add(new Label("Please write the the instructions for the experiment"));
+        // Labels to GUIadd
+        setting.getChildren().add(new Label("TO ADD NEW EXPERIMENTS:"));
+        setting.getChildren().add(new Label("Please fill out the information below"));
         setting.getChildren().add(new Label("---------------------------"));
         setting.getChildren().add(new Label("Select a subject"));
         setting.getChildren().add(subject);
@@ -99,25 +102,25 @@ public class GUIadd {
         setting.getChildren().add(theScience);
         setting.getChildren().add(new Label("Additional notes"));
         setting.getChildren().add(notes);
+        setting.getChildren().add(new Label("When you press 'save', if everything is ok, you will see a 'saved to database' below save-button. If not, please make sure you have filled out everything"));
         setting.getChildren().add(save);
  
         sp.setContent(setting);
         
+        //check content and add to database
         save.setOnAction((event) -> {
-            // getting the toggled subject
+            // getting the toggled subject 
             ToggleButton selected = (ToggleButton) toggleGroup1.getSelectedToggle();
-            String subjectToggle = new String();
+            String subjectToggle = "empty";
             if (selected.equals(biology)) {
                 subjectToggle = "Biology";
             } else if (selected.equals(physics)) {
                 subjectToggle = "Physics";
             } else if (selected.equals(chemistry)) {
                 subjectToggle = "Chemistry";
-            } else {
-                setting.getChildren().add(errorSubject);
             }
             
-            // getting the toggled value
+            // getting the toggled value of duration 
             ToggleButton selected2 = (ToggleButton) toggleGroup2.getSelectedToggle();
             int durationToggle = 0;
             if (selected2.equals(five)) {
@@ -137,13 +140,12 @@ public class GUIadd {
             } else if (selected2.equals(sixty)) {
                 durationToggle = 60;
             } else {
-                setting.getChildren().add(errorDuration);
+                durationToggle = 100;
             }
             
             // making sure all compulsory fields have values before adding them to database (in else)
-            if (topic.getText().isEmpty() || durationToggle == 0 || materials.getText().isEmpty() || directions.getText().isEmpty()) {
-                Label error = new Label("Please fill out all compulsory fields");
-                setting.getChildren().add(error);
+            if (topic.getText().isEmpty() || durationToggle == 0 || subjectToggle.contains("empty") || materials.getText().isEmpty() || directions.getText().isEmpty()) {
+                setting.getChildren().add(new Label("Please fill out all compulsory fields"));
             } else {
                 this.tryWithKids.createExperimentAndSave(subjectToggle, topic.getText(), durationToggle, waitTime.getText(), materials.getText(), directions.getText(), notes.getText(), theScience.getText());
                 setting.getChildren().add(saved);

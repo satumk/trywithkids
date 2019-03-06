@@ -46,6 +46,7 @@ public class GUI extends Application {
         Database database = new Database(morphia, datastore);
         this.trywithkids = new TryWithKids(database);
 
+        //remove this line before sending it off
         trywithkids.clearDatabase();
         
         if (trywithkids.getNumber() == 0) {
@@ -78,21 +79,21 @@ public class GUI extends Application {
         Button deleteButton = new Button("Delete");
         Button viewButton = new Button("Browse all");
         
-        menu.getChildren().addAll(addButton, updateButton, listButton, 
-                searchButton, deleteButton, viewButton);
+        menu.getChildren().addAll(viewButton, addButton, updateButton, listButton, 
+                searchButton, deleteButton);
         
         //create main scene
         BorderPane setting = new BorderPane();
         setting.setTop(menu);
 
+        viewButton.setOnAction((event) -> setting.setCenter(view.getNakyma()));
         addButton.setOnAction((event)-> setting.setCenter(add.getNakyma()));
         updateButton.setOnAction((event) -> setting.setCenter(update.getNakyma()));
         listButton.setOnAction((event) -> setting.setCenter(list.getNakyma()));
         searchButton.setOnAction((event)-> setting.setCenter(search.getNakyma()));
         deleteButton.setOnAction((event) -> setting.setCenter(delete.getNakyma()));
-        viewButton.setOnAction((event) -> setting.setCenter(view.getNakyma()));
         
-        setting.setCenter(add.getNakyma());
+        setting.setCenter(view.getNakyma());
         
         Scene selectAction = new Scene(setting, 1000, 500);
                

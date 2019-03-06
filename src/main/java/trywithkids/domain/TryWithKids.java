@@ -85,7 +85,7 @@ public class TryWithKids {
                 + "\n4. Add celery sticks and leave to wait. \n5. Once waiting time has passed, cut the celery. You can cut it along the stalk to see "
                 + "how the colour rises along the stem. You can also cut across the stem to see a cross-section of the stem.");
         one.setTheScience("Plants use the capillary veins to bring water from the roots to the leaves. This"
-                + "works in flowers and in trees the same way. As water is vaporised in the leaves, more water"
+                + " works in flowers and in trees the same way. As water is vaporised in the leaves, more water"
                 + "gets pulled up to replace the vaporised water. The colour travels with the water, but"
                 + "gets left behind as it does not evaporate, so leaves turn a different colour.");
         one.setNotes("Blue colour is easiest to see and works best for this experiment");

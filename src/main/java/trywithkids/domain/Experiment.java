@@ -127,7 +127,7 @@ public class Experiment {
     public String toString() {
         String info = "\nSubject: " + this.subject + "\nExperiment: " + this.topic + "\nDuration of experiment: " 
                 + this.duration + " minutes\nWaiting time: " + this.waitTime + "\nMaterials: " + this.materials + "\nDirections: \n"
-                + this.directions + "\nNotes on this experiment: + " + this.notes + "\nThe Science: " + this.theScience + "\n";
+                + this.directions + "\nNotes on this experiment: " + this.notes + "\nThe Science: " + this.theScience + "\n";
         return info;
     }
     

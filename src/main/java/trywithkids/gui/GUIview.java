@@ -2,13 +2,17 @@
 package trywithkids.gui;
 
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
@@ -23,32 +27,19 @@ public class GUIview {
     }
     
     public Parent getNakyma() {
-        ScrollPane sp = new ScrollPane();
-        FlowPane setting = new FlowPane();
-        setting.setPadding(new Insets(20, 20, 20, 20));
-        setting.setVgap(10);
-        setting.setHgap(10);
-        setting.setPadding(new Insets(10, 10, 10, 10));
-        VBox exp = new VBox();
-        setting.getChildren().add(exp);
-        
         List<Experiment> experiments = this.tryWithKids.findAll();
         
-        for (Experiment experiment : experiments) {
-            System.out.println(experiment.toString());
-        }
-        /*
-        GridPane setting = new GridPane();
+        ScrollPane sp = new ScrollPane();
+        sp.setFitToHeight(true);
+        sp.setFitToWidth(true);
         
-        Label info = new Label("This view-window is still under construction");
+        ListView<Experiment> listView = new ListView();
+        ObservableList<Experiment> observableExperiment = FXCollections.observableList(experiments);
+        listView.setItems(observableExperiment);
         
-        setting.setAlignment(Pos.CENTER);
-        setting.setVgap(10);
-        setting.setHgap(10);
-        setting.setPadding(new Insets(10, 10, 10, 10));
+        sp.setContent(new Label("EXPERIMENTS IN DATABASE"));
+        sp.setContent(listView);
         
-        setting.add(info, 0, 0);
-        */
-        return setting;
+        return sp;
     }
 }
