@@ -6,7 +6,6 @@ import trywithkids.gui.GUIadd;
 import trywithkids.gui.GUIview;
 import trywithkids.gui.GUIupdate;
 import trywithkids.gui.GUIsearch;
-import trywithkids.gui.GUIlist;
 import trywithkids.gui.GUIdelete;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -30,12 +29,6 @@ public class GUI extends Application {
     
     private TryWithKids trywithkids;
     
-    /*
-    public GUI(TryWithKids trywithkids) {
-        this.trywithkids = trywithkids;
-    }
-    */
-    
     @Override
     public void init() throws Exception {
         Morphia morphia = new Morphia();
@@ -47,7 +40,7 @@ public class GUI extends Application {
         this.trywithkids = new TryWithKids(database);
 
         //remove this line before sending it off
-        trywithkids.clearDatabase();
+        // trywithkids.clearDatabase();
         
         if (trywithkids.getNumber() == 0) {
             trywithkids.addStarterExperiments(); 
@@ -61,7 +54,6 @@ public class GUI extends Application {
         
         //create subscenes
         GUIadd add = new GUIadd(trywithkids);
-        GUIlist list = new GUIlist(trywithkids);
         GUIsearch search = new GUIsearch(trywithkids);
         GUIupdate update = new GUIupdate(trywithkids);
         GUIdelete delete = new GUIdelete(trywithkids);
@@ -74,12 +66,11 @@ public class GUI extends Application {
         
         Button addButton = new Button("Add new");
         Button updateButton = new Button("Update");
-        Button listButton = new Button("List current");
         Button searchButton = new Button("Search");
         Button deleteButton = new Button("Delete");
         Button viewButton = new Button("Browse all");
         
-        menu.getChildren().addAll(viewButton, addButton, updateButton, listButton, 
+        menu.getChildren().addAll(viewButton, addButton, updateButton, 
                 searchButton, deleteButton);
         
         //create main scene
@@ -89,7 +80,6 @@ public class GUI extends Application {
         viewButton.setOnAction((event) -> setting.setCenter(view.getNakyma()));
         addButton.setOnAction((event)-> setting.setCenter(add.getNakyma()));
         updateButton.setOnAction((event) -> setting.setCenter(update.getNakyma()));
-        listButton.setOnAction((event) -> setting.setCenter(list.getNakyma()));
         searchButton.setOnAction((event)-> setting.setCenter(search.getNakyma()));
         deleteButton.setOnAction((event) -> setting.setCenter(delete.getNakyma()));
         

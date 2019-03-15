@@ -3,6 +3,7 @@ package trywithkids.database;
 
 import com.mongodb.MongoClient;
 import java.util.List;
+import org.bson.types.ObjectId;
 import xyz.morphia.Morphia;
 import trywithkids.domain.TryWithKids;
 import trywithkids.domain.Experiment;
@@ -24,14 +25,17 @@ public class Database {
 
     public List<Experiment> findAll() {
         Query<Experiment> query = datastore.createQuery(Experiment.class);
-        List<Experiment> experiments = query.asList();
-         
+        List<Experiment> experiments = query.asList();     
         return experiments;
     }
     
     public void deleteAllDatabase() {
         Query<Experiment> queryDelete = datastore.createQuery(Experiment.class);
         datastore.delete(queryDelete);
+    }
+    
+    public void deleteOne(Experiment experiment) {
+        datastore.delete(experiment);
     }
 }
 

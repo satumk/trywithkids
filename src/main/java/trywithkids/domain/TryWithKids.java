@@ -3,16 +3,15 @@ package trywithkids.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.types.ObjectId;
 import trywithkids.database.Database;
 
 
 public class TryWithKids {
-    //private List<Experiment> experiments;
     private Database database;
     private int numberOfExperiments;
     
     public TryWithKids(Database database) {
-        //this.experiments = new ArrayList<>();
         this.database = database;
         this.numberOfExperiments = 0;
     }
@@ -20,12 +19,6 @@ public class TryWithKids {
     public int getNumber() {
         return this.numberOfExperiments;
     }
-    
-    /*
-    public int listSize() {
-        return this.experiments.size();
-    }
-    */
     
     public void saveToDatabase(Experiment experiment) {
         this.database.save(experiment);
@@ -46,23 +39,13 @@ public class TryWithKids {
         return findAll().size();
     }
     
-    /*
-    public List<Experiment> getExperiments() {
-        return this.experiments;
-    }
-    
-    
-    public void addStartersToDatabase() {
-        for (Experiment experiment : this.experiments) {
-            this.database.save(experiment);
-            this.numberOfExperiments ++;
-        }
-    }
-    */
-    
     public void clearDatabase() {
         this.database.deleteAllDatabase();
         this.numberOfExperiments = 0;
+    }
+    
+    public void deleteOne(Experiment experiment) {
+        this.database.deleteOne(experiment);
     }
     
     public void addStarterExperiments() {

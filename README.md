@@ -29,6 +29,8 @@ Four experiments come with the software at this time.
 ## How to install this software
 Install Netbeans by following instructions here: http://moocfi.github.io/courses/general/programming/how-to-get-started.html
 Install Mongo by following instructions here: https://docs.mongodb.com/manual/administration/install-community/
+Find the Java driver mongo-java-driver-3.10.1.jar for mongo at https://mongodb.github.io/mongo-java-driver/ 
+and download the driver,  make sure it is in the same folder as the project folders src and target. If it is not, please move it there.
 Download the .zip-file containing this program.
 From Netbeans, choose "file" -> "import project" -> from ZIP... and choose the zip-file 
 containing this file. Choose open.
