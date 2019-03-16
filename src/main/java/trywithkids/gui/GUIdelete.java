@@ -36,7 +36,7 @@ public class GUIdelete {
         // create a borderpane as main element
         BorderPane master = new BorderPane();
         VBox labels = new VBox();
-        labels.getChildren().add(new Label("EXPERIMENTS IN DATABASE."));
+        labels.getChildren().add(new Label("EXPERIMENTS IN DATABASE"));
         labels.getChildren().add(new Label("Click on the experiment you want to delete"));
         labels.setPadding(new Insets(20, 20, 20, 20));
         
@@ -83,8 +83,12 @@ public class GUIdelete {
                 newWindow.setY(master.getTranslateY() + 200);
                 
                 yes.setOnAction((event) -> { 
+                    // deleting from dayabase
                     deleteOne(deleteExp);
+                    //deleting from UI
                     experiments.remove(index);
+                    //showing changes in UI
+                    listView.refresh();
                     newWindow.hide();
                 });
 

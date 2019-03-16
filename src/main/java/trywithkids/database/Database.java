@@ -37,6 +37,11 @@ public class Database {
     public void deleteOne(Experiment experiment) {
         datastore.delete(experiment);
     }
+
+    public void update(Experiment updateExp, Experiment updating) {
+        datastore.delete(updateExp);
+        datastore.save(updating);    
+    }
 }
 
 

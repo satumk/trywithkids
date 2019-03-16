@@ -9,20 +9,13 @@ import trywithkids.database.Database;
 
 public class TryWithKids {
     private Database database;
-    private int numberOfExperiments;
     
     public TryWithKids(Database database) {
         this.database = database;
-        this.numberOfExperiments = 0;
     }
-    
-    public int getNumber() {
-        return this.numberOfExperiments;
-    }
-    
+
     public void saveToDatabase(Experiment experiment) {
         this.database.save(experiment);
-        this.numberOfExperiments ++;
     }
     
     public void createExperimentAndSave(String subject, String topic, int duration, String waitTime, String materials, String directions, String notes, String theScience) {
@@ -41,11 +34,33 @@ public class TryWithKids {
     
     public void clearDatabase() {
         this.database.deleteAllDatabase();
-        this.numberOfExperiments = 0;
     }
     
     public void deleteOne(Experiment experiment) {
         this.database.deleteOne(experiment);
+    }
+    
+    public void update(Experiment updateExp, String subject, String topic, int duration, String waittime, String materials, String directions, String notes, String thescience) {
+        Experiment updating = updateExp;
+        
+        if (!subject.contains("empty")) {
+            updating.setSubject(subject);
+        } else {
+            updating.setSubject(updateExp.getSubject());
+        }
+        if (duration != 0) {
+            updating.setDuration(duration);
+        } else {
+            updating.setDuration(updateExp.getDuration());
+        }
+        updating.setTopic(topic);
+        updating.setWaitTime(waittime);
+        updating.setMaterials(materials);
+        updating.setDirections(directions);
+        updating.setNotes(notes);
+        updating.setTheScience(thescience);
+
+        this.database.update(updateExp, updating);
     }
     
     public void addStarterExperiments() {
@@ -128,7 +143,7 @@ public class TryWithKids {
         four.setMaterials("5 tablespoons of corn starch // 3 tablespoons of water // (optional) food colouring");
         four.setDuration(10);
         four.setWaitTime("No waiting time needed");
-        four.setDirections("1. Mix corn starch, water and foor colouring. \n2. Play with the result.\nOptionally add more water or corn starch until you are happy with the texture and behaviour.");
+        four.setDirections("1. Mix corn starch, water and food colouring. \n2. Play with the result.\nOptionally add more water or corn starch until you are happy with the texture and behaviour.");
         four.setTheScience("Magic mud behaves like solid material if force is applied, but otherwise acts as a liquid.");
         four.setNotes("Difficult to clean as it acts as solid when force is applied");
         saveToDatabase(four);

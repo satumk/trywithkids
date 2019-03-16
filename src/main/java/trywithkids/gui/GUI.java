@@ -38,14 +38,10 @@ public class GUI extends Application {
         datastore.ensureIndexes();
         Database database = new Database(morphia, datastore);
         this.trywithkids = new TryWithKids(database);
-
-        //remove this line before sending it off
-        // trywithkids.clearDatabase();
         
-        if (trywithkids.getNumber() == 0) {
+        if (trywithkids.databaseSize() == 0) {
             trywithkids.addStarterExperiments(); 
         }
-        
     }
     
     @Override
