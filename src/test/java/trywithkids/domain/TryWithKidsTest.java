@@ -218,12 +218,17 @@ public class TryWithKidsTest {
         String topicTest =testexp.getTopic();
         String materialsTest = testexp.getMaterials();
         String directionsTest = testexp.getDirections();
+        String notesTest = testexp.getNotes();
+        String scienceTest = testexp.getTheScience();
+        String waittimeTest = testexp.getWaitTime();
         
         assertEquals("another test", topicTest);
         assertEquals("another set of materials", materialsTest);
         assertEquals("still time and patience", directionsTest);
         assertEquals(15, durationTest);
-
+        assertEquals("none", notesTest);
+        assertEquals("very little", scienceTest);
+        assertEquals("none", waittimeTest);
     }
     
     @Test
@@ -240,13 +245,6 @@ public class TryWithKidsTest {
         Experiment one = new Experiment(subject, topic, duration, waittime, materials, directions, notes, science);
         String shortInfo = one.shortInfo();
         assertEquals("Experiment: test topic\nDuration of experiment: 10 minutes\nWaiting time: none\nMaterials: patience and time", shortInfo);
-        /*
-                public String shortInfo() {
-        String info = "Experiment: " + this.topic + "\nDuration of experiment: "
-                + this.duration + " minutes\nWaiting time: " + this.waitTime + "\nMaterials: " + this.materials;
 
-        return info;
-    }
-*/
     }
 }

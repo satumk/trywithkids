@@ -77,7 +77,7 @@ public class TryWithKids {
             fromDatabase = this.database.findByBoth(subject, duration);
         } else if (!subject.contains("empty")) {
             fromDatabase = this.database.findBySubject(subject);
-        } else if (subject.contains("empty") && duration !=0) {
+        } else if (duration !=0) {
             fromDatabase = this.database.findByDuration(duration);
         }
 
