@@ -6,40 +6,126 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import trywithkids.database.Database;
 
-
+/**
+ * @author satu
+ * This class contains the main logic of the application. It also connects to the class Database, 
+ * that discusses with the MongoDB database.
+ */
 public class TryWithKids {
     private Database database;
     
+    /**
+     * The constructor takes as parameter instance of class database that is used when using the MongoDB database.
+     * @param database 
+     */
     public TryWithKids(Database database) {
         this.database = database;
     }
 
+    /**
+     * This method saves one instance of class Experiment given as parameter to database by
+     * passing in on to class Database.
+     * @param experiment 
+     */
     public void saveToDatabase(Experiment experiment) {
         this.database.save(experiment);
     }
     
+    /**
+     * This experiment takes as parameters the subject, topic, duration (int), 
+     * waitTime, materials, directions, notes and the science that comprise an instance of 
+     * Experiment class. All other variables are String. It then creates an instance
+     * of Experiment from this info and passes it on to Database-class.
+     * 
+     * @param subject
+     * @param topic
+     * @param duration
+     * @param waitTime
+     * @param materials
+     * @param directions
+     * @param notes
+     * @param theScience 
+     */
     public void createExperimentAndSave(String subject, String topic, int duration, String waitTime, String materials, String directions, String notes, String theScience) {
         Experiment novel = new Experiment(subject, topic, duration, waitTime, materials, directions, notes, theScience);
         saveToDatabase(novel);
     }
     
+    /**
+     * Method sends a request to class Database to find all experiments in the database and 
+     * returns the list it gets back from Database.
+     * @return List<Experiment>
+     */
     public List<Experiment> findAll() {
         List<Experiment> fromDatabase = this.database.findAll();
         return fromDatabase;
     }
     
+    /**
+     * Method takes as parameters from GUI all possible search criteria.
+     * It then checks, which is valid or if both are, then
+     * sends a query-request to database-class instance accordingly.
+     * As it receives the search result, it then returns the list to GUI
+     * @param subject
+     * @param duration
+     * @return List<Experiment>
+     */
+    public List<Experiment> search(String subject, int duration) {
+        List<Experiment> fromDatabase = new ArrayList<>();
+        
+        if (!subject.contains("empty") && duration !=0) {
+            fromDatabase = this.database.findByBoth(subject, duration);
+        } else if (!subject.contains("empty")) {
+            fromDatabase = this.database.findBySubject(subject);
+        } else if (subject.contains("empty") && duration !=0) {
+            fromDatabase = this.database.findByDuration(duration);
+        }
+
+        return fromDatabase;
+    }
+    
+    /**
+     * This utilises the method findAll() to check the amount of experiments in Database by checking
+     * the size of the returned list and returning that.
+     * @return int
+     */
     public int databaseSize() {
         return findAll().size();
     }
     
+    /**
+     * Method requests database to clear the mongoDB. It does not take parameters or
+     * return anything.
+     */
     public void clearDatabase() {
         this.database.deleteAllDatabase();
     }
     
+    /**
+     * Method asks the database-class to delete an experiment that it takes as
+     * parameter. It passes this instance on to the database-class to be deleted.
+     * @param experiment 
+     */
     public void deleteOne(Experiment experiment) {
         this.database.deleteOne(experiment);
     }
     
+    /**
+     * Method parameters received from the GUI include the old version of the experiment as well as each
+     * variable needed to create a new experiment. It checks that the subject- and duration
+     * variables have a value and then creates the updated version of the experiment by using the set-methods
+     * in class Experiment. It then passes the old version and the updated version to the
+     * Database-class to be updated.
+     * @param updateExp
+     * @param subject
+     * @param topic
+     * @param duration
+     * @param waittime
+     * @param materials
+     * @param directions
+     * @param notes
+     * @param thescience 
+     */
     public void update(Experiment updateExp, String subject, String topic, int duration, String waittime, String materials, String directions, String notes, String thescience) {
         Experiment updating = updateExp;
         
@@ -63,6 +149,10 @@ public class TryWithKids {
         this.database.update(updateExp, updating);
     }
     
+    /**
+     * This method contains some experiments to get the user started.
+     * It is also utilised with testing the system.
+     */
     public void addStarterExperiments() {
         Experiment one = new Experiment();
         one.setSubject("Biology");

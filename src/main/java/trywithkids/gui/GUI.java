@@ -81,7 +81,7 @@ public class GUI extends Application {
         
         setting.setCenter(view.getNakyma());
         
-        Scene selectAction = new Scene(setting, 1000, 500);
+        Scene selectAction = new Scene(setting, 1000, 600);
                
         window.setScene(selectAction);
 
