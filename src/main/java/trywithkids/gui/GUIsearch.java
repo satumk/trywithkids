@@ -6,7 +6,6 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,7 +27,7 @@ public class GUIsearch {
         this.tryWithKids = tryWithKids;
     }
     
-    public Parent getNakyma() {
+    public Parent getView() {
         BorderPane setting = new BorderPane();
         
         VBox head = new VBox();
@@ -72,7 +71,7 @@ public class GUIsearch {
         HBox duration = new HBox(five, ten, fiveteen, twenty, thirty, fourty, fifty, sixty);
         duration.setSpacing(10);
         
-        Button search = new Button("Search");
+        Button search = new Button("SEARCH");
         head.getChildren().addAll(headline, guide, bySubject, subject, byDuration, duration, search);
         
         setting.setTop(head);

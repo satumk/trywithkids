@@ -4,17 +4,10 @@ package trywithkids.gui;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
 
@@ -27,7 +20,7 @@ public class GUIview {
         this.tryWithKids = tryWithKids;
     }
     
-    public Parent getNakyma() {
+    public Parent getView() {
         List<Experiment> experiments = this.tryWithKids.findAll();
         
         ScrollPane sp = new ScrollPane();
@@ -42,5 +35,7 @@ public class GUIview {
         sp.setContent(listView);
         
         return sp;
+        // TÄHÄN LUOKKAAN VOISI LISÄTÄ MYÖS KYVYN LISÄTÄ KOE OMALLE LISTALLE
+        // lisäksi tähän luokkaan voisi lisätä kyvyn arvioida koe skaalalla vaikka 1-5
     }
 }

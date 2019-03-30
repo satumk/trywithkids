@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import trywithkids.database.Database;
+import trywithkids.database.DatabaseUsers;
 import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
 
@@ -16,6 +17,7 @@ public class TryWithKidsTest {
     Database b;
     Morphia m;
     Datastore d;
+    DatabaseUsers u;
 
     @Before
     public void setUp() {
@@ -25,8 +27,11 @@ public class TryWithKidsTest {
         Datastore d = m.createDatastore(new MongoClient(), "test");
         d.ensureIndexes();;
         b = new Database(m, d);
-        t = new TryWithKids(b); 
+        u = new DatabaseUsers(m, d);
+        t = new TryWithKids(b, u); 
         t.clearDatabase();
+        u.clearDatabaseOfUsers();
+        
     }
 
     @Test
@@ -245,6 +250,16 @@ public class TryWithKidsTest {
         Experiment one = new Experiment(subject, topic, duration, waittime, materials, directions, notes, science);
         String shortInfo = one.shortInfo();
         assertEquals("Experiment: test topic\nDuration of experiment: 10 minutes\nWaiting time: none\nMaterials: patience and time", shortInfo);
-
+    }
+    
+    @Test
+    public void noUsersInBeginning() {
+        assertEquals(0, t.getUserN());
+    }
+    
+    @Test
+    public void addDefaultMaintenance() {
+        t.addDefaultMaintenance();
+        assertEquals(1, t.findAllUsers().size());
     }
 }

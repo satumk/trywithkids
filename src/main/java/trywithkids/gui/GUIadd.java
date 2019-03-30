@@ -2,12 +2,12 @@
 package trywithkids.gui;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -23,7 +23,7 @@ public class GUIadd {
         this.tryWithKids = tryWithKids;
     }
     
-    public Parent getNakyma() {
+    public Parent getView() {
         ScrollPane sp = new ScrollPane();
         
         //TextAreas and prompt texts for GUIadd
@@ -33,16 +33,22 @@ public class GUIadd {
         setting.setPadding(new Insets(20, 20, 20, 20));
         TextArea topic = new TextArea("");
         topic.setPromptText("Compulsory: what do you want to name the experiment");
+        topic.setWrapText(true);
         TextArea waitTime = new TextArea("");
         waitTime.setPromptText("Not compulsory: Is there a waiting period between the experiment and the results?");
+        waitTime.setWrapText(true);
         TextArea materials = new TextArea("");
+        materials.setWrapText(true);
         materials.setPromptText("Compulsory: what materials are needed? Separate with // for easier viewing");
         TextArea directions = new TextArea("");
         directions.setPromptText("Compulsory: How is the experiment conducted?");
+        directions.setWrapText(true);
         TextArea notes = new TextArea("");
         notes.setPromptText("Not compulsory: Is there something more that can help the experimentor?");
+        notes.setWrapText(true);
         TextArea theScience = new TextArea("");
         theScience.setPromptText("Not compulsory, but recommended: Why does the experiment work / what is the science behind it?");
+        theScience.setWrapText(true);
         
         //feedback buttons and labels for successful entry
         Button save = new Button("Save to database");

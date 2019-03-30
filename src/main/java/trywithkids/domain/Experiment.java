@@ -1,14 +1,12 @@
 
 package trywithkids.domain;
 
-import java.util.List;
 import org.bson.types.ObjectId;
 import xyz.morphia.annotations.Entity;
 import xyz.morphia.annotations.Field;
 import xyz.morphia.annotations.Id;
 import xyz.morphia.annotations.Index;
 import xyz.morphia.annotations.Indexes;
-import static xyz.morphia.utils.IndexType.ASC;
 
 
 /**

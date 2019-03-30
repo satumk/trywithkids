@@ -3,8 +3,8 @@ package trywithkids.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.bson.types.ObjectId;
 import trywithkids.database.Database;
+import trywithkids.database.DatabaseUsers;
 
 /**
  * @author satu
@@ -13,15 +13,112 @@ import trywithkids.database.Database;
  */
 public class TryWithKids {
     private Database database;
+    private DatabaseUsers userDatabase;
     
     /**
-     * The constructor takes as parameter instance of class database that is used when using the MongoDB database.
+     * The constructor takes as parameter instance of class database (for experiments) 
+     * and databaseUsers (for users) that is used when using the MongoDB database.
      * @param database 
      */
-    public TryWithKids(Database database) {
+    public TryWithKids(Database database, DatabaseUsers userdatabase) {
         this.database = database;
+        this.userDatabase = userdatabase;
     }
+    
+    /**
+     * saves new user to database if password is over 8 char long and username is
+     * not already in use in database.
+     * @param username
+     * @param passwd
+     * @param maintenance 
+     */
+    public Boolean addUserThroughGUI(String username, String passwd, Boolean maintenance) {
+        Boolean success = false;
+        Boolean usernameInUse = this.userDatabase.findUsername(username);
+        
+        if (passwd.length()<8 && usernameInUse == false) {
+            User newUser = new User(username, passwd, maintenance);
+            this.userDatabase.save(newUser);
+            success = true;
+        }
 
+        return success;
+    }
+    
+    public void addDefaultMaintenance() {
+        User newUser = new User("Maintenance", "main_auth123", true);
+        this.userDatabase.save(newUser);
+    }
+    
+    /**
+     * deletes one user from database
+     * @param user 
+     */
+    public void deleteUser(User user) {
+        this.userDatabase.delete(user);    
+    }
+    
+    /**
+     * adds an experiment to userlist. Gets user-param and experiment from GUI, saves to database
+     * @param userfromGUI
+     * @param experiment 
+     */
+    public void addExpToUser(User userfromGUI, Experiment experiment) {
+        User userinDatabase = this.userDatabase.findUser(userfromGUI);
+        userinDatabase.addExperiment(experiment);
+        this.userDatabase.updateUserList(userinDatabase);
+    }
+    
+    /**
+     * returns the experiments of an individual user
+     * @param user
+     * @return 
+     */
+    public List<Experiment> viewUsersList(User user) {
+        //view the list of the user
+        List<Experiment> userExpList = user.getExperiments();
+        return userExpList;
+    }
+    
+    /**
+     * changes the password of a user. Returns a boolean if update is successful
+     * @param userfromGUI
+     * @param oldPasswd
+     * @param PassWd
+     * @return 
+     */
+    public Boolean changePassword(User userfromGUI, String oldPasswd, String PassWd) {
+        Boolean success = false;
+        
+        User userinDatabase = this.userDatabase.findUser(userfromGUI);
+        if (userinDatabase.getPassword() == oldPasswd) {
+            userinDatabase.setPassword(PassWd);
+            success = true;
+        } 
+        
+        this.userDatabase.updateUserList(userinDatabase);
+        
+        return success;
+    }
+   
+    /**
+     * returns the number of users in database
+     * @return 
+     */
+    public int getUserN() {
+        List<User> fromDatabase = this.userDatabase.findAll();
+        return fromDatabase.size();
+    }
+    
+    /**
+     * Returns a list of all users in database
+     * @return 
+     */
+    public List<User> findAllUsers() {
+        List<User> fromDatabase = this.userDatabase.findAll();
+        return fromDatabase;
+    }
+    
     /**
      * This method saves one instance of class Experiment given as parameter to database by
      * passing in on to class Database.

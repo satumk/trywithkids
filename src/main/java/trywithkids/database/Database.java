@@ -1,7 +1,6 @@
 
 package trywithkids.database;
 
-import com.mongodb.MongoClient;
 import java.util.List;
 import org.bson.types.ObjectId;
 import xyz.morphia.Morphia;
@@ -12,7 +11,8 @@ import xyz.morphia.query.Query;
 
 /**
  * @author satu
- * This class is responsible for all conversation with the database
+ * This class is responsible for all conversation with the database relating with
+ * experiments.
  */
 
 public class Database {

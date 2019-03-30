@@ -6,10 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,7 +16,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.bson.types.ObjectId;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
 
@@ -30,7 +26,7 @@ public class GUIdelete {
         this.tryWithKids = tryWithKids;
     }
     
-    public Parent getNakyma() {
+    public Parent getView() {
         List<Experiment> experiments = this.tryWithKids.findAll();
         
         // create a borderpane as main element
