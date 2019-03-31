@@ -14,6 +14,7 @@ import trywithkids.database.DatabaseUsers;
 public class TryWithKids {
     private Database database;
     private DatabaseUsers userDatabase;
+    private User user;
     
     /**
      * The constructor takes as parameter instance of class database (for experiments) 
@@ -26,27 +27,71 @@ public class TryWithKids {
     }
     
     /**
+     * Returns this.user so other parts of program know which user is using the software
+     * @return 
+     */
+    public User login() {
+        return this.user;
+    }
+    
+    /**
+     * Checks if the username is already in use. Param is String username. returns boolean.
+     * 
+     * @param usernameGUI
+     * @return 
+     */
+    public Boolean checkUsernameExists(String usernameGUI) {
+        Boolean exists = this.userDatabase.findUsername(usernameGUI);
+        return exists;
+    }
+    
+    /**
+     * Method checks the user credentials with one query. Params are String username and String password from GUI. 
+     * If return-value is 1: there are more than 1 user with that database (should not happen)
+     * If return-value is 2: there are no users with that username in the database
+     * if return-value is 3: there is a matching user (just the one), but the supplied password does not match
+     * if return-value is 4: there is a matching user and the password matches
+     * if return-value is 5: unknown error has occurred.
+     * @param usernameGUI
+     * @param passwdGUI
+     * @return 
+     */
+    public int checkUser(String usernameGUI, String passwdGUI) {
+        List<User> users = new ArrayList<>();
+        users = this.userDatabase.checkLoginInfo(usernameGUI);
+        if (users.size() == 0) {
+            return 2;
+        } else if (users.size() > 1) {
+            return 1;
+        } else if (!users.get(0).getPassword().equals(passwdGUI)) {
+            return 3;
+        } else if (users.size()==1 && users.get(0).getPassword().equals(passwdGUI)) {
+            this.user = users.get(0);
+            return 4;
+        } else {
+            return 5;
+        }
+    }
+    
+    /**
      * saves new user to database if password is over 8 char long and username is
      * not already in use in database.
      * @param username
      * @param passwd
      * @param maintenance 
      */
-    public Boolean addUserThroughGUI(String username, String passwd, Boolean maintenance) {
-        Boolean success = false;
-        Boolean usernameInUse = this.userDatabase.findUsername(username);
-        
-        if (passwd.length()<8 && usernameInUse == false) {
-            User newUser = new User(username, passwd, maintenance);
-            this.userDatabase.save(newUser);
-            success = true;
-        }
-
-        return success;
+    public void addUserThroughGUI(String username, String passwd, Boolean maintenance) {
+        User newUser = new User(username, passwd, maintenance);
+        this.userDatabase.save(newUser);
     }
     
     public void addDefaultMaintenance() {
-        User newUser = new User("Maintenance", "main_auth123", true);
+        User newUser = new User("maintenance", "main_auth123", true);
+        this.userDatabase.save(newUser);
+    }
+    
+    public void addDefaultEnduser() {
+        User newUser = new User("end-user", "end_auth987", false);
         this.userDatabase.save(newUser);
     }
     
@@ -66,7 +111,7 @@ public class TryWithKids {
     public void addExpToUser(User userfromGUI, Experiment experiment) {
         User userinDatabase = this.userDatabase.findUser(userfromGUI);
         userinDatabase.addExperiment(experiment);
-        this.userDatabase.updateUserList(userinDatabase);
+        this.userDatabase.updateUser(userfromGUI, userinDatabase);
     }
     
     /**
@@ -74,7 +119,7 @@ public class TryWithKids {
      * @param user
      * @return 
      */
-    public List<Experiment> viewUsersList(User user) {
+    public List<Experiment> viewUsersExperimentsList(User user) {
         //view the list of the user
         List<Experiment> userExpList = user.getExperiments();
         return userExpList;
@@ -83,22 +128,13 @@ public class TryWithKids {
     /**
      * changes the password of a user. Returns a boolean if update is successful
      * @param userfromGUI
-     * @param oldPasswd
      * @param PassWd
      * @return 
      */
-    public Boolean changePassword(User userfromGUI, String oldPasswd, String PassWd) {
-        Boolean success = false;
-        
+    public void changePassword(User userfromGUI, String newPassWd) {
         User userinDatabase = this.userDatabase.findUser(userfromGUI);
-        if (userinDatabase.getPassword() == oldPasswd) {
-            userinDatabase.setPassword(PassWd);
-            success = true;
-        } 
-        
-        this.userDatabase.updateUserList(userinDatabase);
-        
-        return success;
+        userinDatabase.setPassword(newPassWd);
+        this.userDatabase.updateUser(userfromGUI, userinDatabase);
     }
    
     /**
@@ -335,5 +371,7 @@ public class TryWithKids {
         four.setNotes("Difficult to clean as it acts as solid when force is applied");
         saveToDatabase(four);
     }
+
+    
 
 }

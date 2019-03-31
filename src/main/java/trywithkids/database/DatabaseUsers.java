@@ -36,29 +36,69 @@ public class DatabaseUsers {
         this.datastore.delete(user);
     }
     
+    /**
+     * method clears database of users
+     */
     public void clearDatabaseOfUsers() {
         Query<User> queryDelete = datastore.createQuery(User.class);
         datastore.delete(queryDelete);
     }
+    
+    /**
+     * method lists all users in database
+     * @return 
+     */
     public List<User> findAll() {
         Query<User> query = this.datastore.createQuery(User.class);
         List<User> users = query.asList();
         return users;
     }
 
-    public void updateUserList(User user) {
-        System.out.println("updateuserslist not supported yet");
+    /**
+     * This method returns a user from database. It requires an instance of User (from GUI) as param and returns the matching instance
+     * from database.
+     * @param userfromGUI
+     * @return 
+     */
+    public User findUser(User userfromGUI) {      
+        return this.datastore.get(User.class, userfromGUI.getId());
     }
 
-    public User findUser(User userfromGUI) {
-        System.out.println("finduser not supported yet");
-        User user = new User("test", "testexception", false);
-        return user;
-    }
-
+    /**
+     * method to check if the database contains a user with a specific username. Param username accepts String.
+     * @param username
+     * @return 
+     */
     public Boolean findUsername(String username) {
-        System.out.println("Findusername: Not supported yet.");
-        return true;
+        Query<User> query = this.datastore.createQuery(User.class).field("username").equal(username);
+        List<User> users = query.asList();
+        Boolean exists = false;
+        if (users.size() >= 1) {
+            exists = true;
+        }
+        return exists;
+    }
+    
+    /**
+     * updates userinfo. Accepts the old User-class instance and new User-class instance as params
+     * @param userfromGUI
+     * @param userinDatabase 
+     */
+    public void updateUser(User userfromGUI, User userinDatabase) {
+        datastore.delete(userfromGUI);
+        datastore.save(userinDatabase);
+    }
+
+    /**
+     * This method supports credential-evaluation. It takes as param String username and returns a list of 
+     * all users with that username (should be a list of 1).
+     * @param usernameGUI
+     * @return 
+     */
+    public List<User> checkLoginInfo(String usernameGUI) {
+        Query<User> query = this.datastore.createQuery(User.class).field("username").equal(usernameGUI);
+        List<User> users = query.asList();
+        return users;
     }
 
 }

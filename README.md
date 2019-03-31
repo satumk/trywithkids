@@ -39,7 +39,7 @@ by subject, by maximum desired duration or both.
 These features are tested with JUnit.
 
 ### Iteration 3: by 7th April
-Ability to add and delete users.
+Ability for maintenance-type users to add and delete users.
 Ability to change password.
 Ability to log in.
 Different views for different user-types.
@@ -54,11 +54,33 @@ From Netbeans, choose "file" -> "import project" -> from ZIP... and choose the z
 containing this file. Choose open.
 Once opened, press the green play-button to run the software.
 
-## Maintenance user
+## Default users
+This program comes with two default users. This info is also found in the code, so it is HIGHLY advisable
+to change the passwords after installation.
 User-information for maintenance is:
 username : maintenance
 default password : main_auth123
-This password can be changed. It should definately be changed on first login.
+User-information for user is:
+username: end-user
+default password: end_auth987
+
+## Note on security --- IMPORTANT ---
+The security of this application is very poor. Default-maintenance passwords are found
+in this readme as well as in the code. They are clearly visible. Also all passwords
+are saved in plain text (String) at this time. All maintenance-type users can see all 
+user passwords that are stored in the same device. From the security -point of view this is
+not wise, but from the teacher's point of view, this is almost a must as they need
+to help students login very frequently. Passwords should be salted and hashed. 
+
+
+## Known bugs at this time:
+- listview scrolls also horizontally. Content should be wrapped.
+- user-notification is insufficient in add experiments-view. No notification if experiment 
+did not save to database
+- in add experiment the user can add more text than the database can handle causing
+save to fail
+- error messages remain in window until user visits another part of application
+- view window needs ability to see all or see own list
 
 ## Creator information 
 The creator and developer for this project is Satu Korhonen.

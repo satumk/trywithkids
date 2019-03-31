@@ -250,6 +250,7 @@ public class TryWithKidsTest {
         Experiment one = new Experiment(subject, topic, duration, waittime, materials, directions, notes, science);
         String shortInfo = one.shortInfo();
         assertEquals("Experiment: test topic\nDuration of experiment: 10 minutes\nWaiting time: none\nMaterials: patience and time", shortInfo);
+        // lisää tähän toString testi samaan tai tee seuraavaan.
     }
     
     @Test
@@ -260,6 +261,17 @@ public class TryWithKidsTest {
     @Test
     public void addDefaultMaintenance() {
         t.addDefaultMaintenance();
-        assertEquals(1, t.findAllUsers().size());
+        List<User> users = t.findAllUsers();
+        assertEquals(1, users.size());
+        assertEquals(true, users.get(0).getMaintenance());
+    }
+    
+    @Test
+    public void addDefaultEnduser() {
+        t.addDefaultMaintenance();
+        t.addDefaultEnduser();
+        List<User> users = t.findAllUsers();
+        assertEquals(2, users.size());
+        assertEquals(false, users.get(1).getMaintenance());
     }
 }

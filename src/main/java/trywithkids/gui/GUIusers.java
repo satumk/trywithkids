@@ -2,13 +2,17 @@
 package trywithkids.gui;
 
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
@@ -16,6 +20,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
 import trywithkids.domain.User;
@@ -26,9 +31,14 @@ import trywithkids.domain.User;
  */
 public class GUIusers {
     private TryWithKids tryWithKids;
+    private User user;
     
     public GUIusers(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public Parent getView() {
@@ -60,9 +70,9 @@ public class GUIusers {
             Label instruction = new Label("Please fill all boxes below");
             TextArea username = new TextArea("");
             username.setPromptText("Compulsory: please write your username");
-            TextArea password = new TextArea("");
+            PasswordField password = new PasswordField();
             password.setPromptText("Compulsory: please choose a password. Must be over 8 characters long");
-            TextArea rewritePasswd = new TextArea("");
+            PasswordField rewritePasswd = new PasswordField();
             rewritePasswd.setPromptText("Compulsory: please rewrite password");
             Label role = new Label("Compulsory: Please select a role");
             ToggleButton maintenance = new ToggleButton("Maintenance");
@@ -77,6 +87,70 @@ public class GUIusers {
             Button save = new Button("SAVE");
             add.getChildren().addAll(instruction, username, password, rewritePasswd, role, rolesgroup, save);
             
+            save.setOnAction((event2) -> {
+                Boolean allTextsFilled = false;
+                Boolean usernameFree = false;
+                Boolean passwordsMatch = false;
+                Boolean roleFilled = false;
+                Boolean passwdLongEnough = false;
+                
+                if (username.getText().isEmpty() || password.getText().isEmpty() || rewritePasswd.getText().isEmpty()) {
+                    Label errorMissingInfo = new Label("Please fill all compulsory information");
+                    add.getChildren().add(errorMissingInfo);
+                } else {
+                    allTextsFilled = true;
+                }
+                
+                String usernameString = username.getText();
+                if (this.tryWithKids.checkUsernameExists(usernameString) == true) {
+                    username.clear();
+                    username.setPromptText("Username already in use. Please select another");
+                } else {
+                    usernameFree = true;
+                }
+                
+                String passwordString = password.getText();
+                if (!passwordString.equals(rewritePasswd.getText())) {
+                    password.clear();
+                    password.setPromptText("Passwords did not match. Please try again");
+                    rewritePasswd.clear();
+                    rewritePasswd.setPromptText("Passwords did not match. Please try again");
+                } else {
+                    passwordsMatch = true;
+                }
+                
+                if (passwordString.length() < 9) {
+                    password.clear();
+                    password.setPromptText("Password is not long enough. Must be at least 9 characters long");
+                    rewritePasswd.clear();
+                    rewritePasswd.setPromptText("Password is not long enough. Must be at least 9 characters long");
+                } else {
+                    passwdLongEnough = true;
+                }
+                
+                ToggleButton selected = (ToggleButton) roles.getSelectedToggle();
+                Boolean admin = false;
+                if (selected == null) {
+                    Label errorRoleMissing = new Label("Error: role is missing. Please select a role");
+                    add.getChildren().add(errorRoleMissing);
+                } else if (selected.equals(maintenance)) {
+                    admin = true;
+                    roleFilled = true;
+                } else {
+                    roleFilled = true;
+                }
+                
+                if (allTextsFilled == true && usernameFree == true && passwordsMatch == true && roleFilled == true && passwdLongEnough == true) {
+                    this.tryWithKids.addUserThroughGUI(usernameString, passwordString, admin);
+                    Label success = new Label("User saved");
+                    add.getChildren().add(success);
+                } else {
+                    Label error = new Label("Error. Could not save user");
+                    add.getChildren().add(error);
+                }
+
+            });
+            
             sp.setContent(add);
         });
 
@@ -90,8 +164,57 @@ public class GUIusers {
             ListView<User> listView = new ListView();
             ObservableList<User> observableExperiment = FXCollections.observableList(users);
             listView.setItems(observableExperiment);
-        
+            
+            listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
+                
+                @Override
+                public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                    int index = listView.getSelectionModel().getSelectedIndex();
+
+                    User deleteUser = users.get(index);
+                    String deleteUserName = deleteUser.getUsername();
+
+                    // creating a popup window to make sure user wants to delete a user
+                    Button yes = new Button("Yes, I am sure");
+                    Button no = new Button("Cancel");
+                    Label label = new Label("Are you sure you want to delete user");
+                    Label userLabel = new Label(deleteUserName);
+                    Label makingSure = new Label("You cannot undo this action");
+                    VBox newStage = new VBox();
+                    newStage.setSpacing(10);
+                    newStage.setPadding(new Insets(20, 20, 20, 20));
+                    newStage.getChildren().add(makingSure);
+                    newStage.getChildren().add(label);
+                    newStage.getChildren().add(userLabel);
+                    newStage.getChildren().add(no);
+                    newStage.getChildren().add(yes);
+
+                    Scene secondScene = new Scene(newStage, 450, 250);
+                    Stage newWindow = new Stage();
+                    newWindow.setTitle("Deleting user");
+                    newWindow.setScene(secondScene);
+
+                    yes.setOnAction((event) -> { 
+                        // deleting from dayabase
+                        deleteOne(deleteUser);
+                        //deleting from UI
+                        users.remove(index);
+                        //showing changes in UI
+                        listView.refresh();
+                        newWindow.hide();
+                    });
+
+                    no.setOnAction((event) -> {
+                        newWindow.hide();
+                    });
+
+                    newWindow.show();
+
+                }  
+
+            });
             scrollUsers.setContent(new Label("USERS IN DATABASE"));
+            scrollUsers.setContent(new Label("To delete user: please click on a listing below"));
             scrollUsers.setContent(listView);
             
             sp.setContent(scrollUsers);
@@ -103,15 +226,57 @@ public class GUIusers {
             change.setSpacing(10);
             change.setPadding(new Insets(20, 20, 20, 20));
             
-            TextArea oldPasswd = new TextArea("");
+            PasswordField oldPasswd = new PasswordField();
             oldPasswd.setPromptText("Compulsory: write old password here");
-            TextArea newPasswd = new TextArea("");
-            newPasswd.setPromptText("Compulsory: write new password here");
-            TextArea newAgain = new TextArea("");
+            PasswordField newPasswd = new PasswordField();
+            newPasswd.setPromptText("Compulsory: write new password here. Must be over 8 charachers long.");
+            PasswordField newAgain = new PasswordField();
             newAgain.setPromptText("Compulsory: please rewrite new password");
             Button save = new Button("SAVE");
             
             change.getChildren().addAll(oldPasswd, newPasswd, newAgain, save);
+            
+            save.setOnAction((event2)-> {
+                String oldPW = oldPasswd.getText();
+                String newPW = newPasswd.getText();
+                String newAg = newAgain.getText();
+                String userPassword = this.user.getPassword();
+                Boolean newPasswordsMatch = false;
+                Boolean oldpasswdMatchesOneOnFile = false;
+                Boolean passwordOver8Char = false;
+                
+                if (newPW.length()<9) {
+                    newPasswd.clear();
+                    newPasswd.setPromptText("Password needs to be over 8 characters long");
+                    newAgain.clear();
+                    newAgain.setPromptText("Password needs to be over 8 characters long");
+                } else {
+                    passwordOver8Char = true;
+                }
+                
+                if (!newAg.equals(newPW)) {
+                    newPasswd.clear();
+                    newPasswd.setPromptText("Passwords did not match");
+                    newAgain.clear();
+                    newAgain.setPromptText("Passwords did not match");
+                } else {
+                    newPasswordsMatch = true;
+                }
+                
+                if (!oldPW.contentEquals(userPassword)) {
+                    oldPasswd.clear();
+                    oldPasswd.setPromptText("Password incorrect");
+                } else {
+                    oldpasswdMatchesOneOnFile = true;
+                }
+                
+                if (newPasswordsMatch == true && oldpasswdMatchesOneOnFile == true && passwordOver8Char == true) {
+                    this.tryWithKids.changePassword(user, newPW);
+                    user.setPassword(newPW);
+                    Label saved = new Label("New password saved");
+                    change.getChildren().add(saved);
+                }
+            });
             
             sp.setContent(change);
             
@@ -119,4 +284,9 @@ public class GUIusers {
         
         return vb;
     }    
+    
+    // deleting the user from trywithkids
+    public void deleteOne(User user) {
+        this.tryWithKids.deleteUser(user);
+    }
 }

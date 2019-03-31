@@ -10,14 +10,20 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
+import trywithkids.domain.User;
 
 
 public class GUIview {
     
     private TryWithKids tryWithKids;
+    private User user;
     
     public GUIview(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
     }
     
     public Parent getView() {

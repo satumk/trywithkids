@@ -38,6 +38,10 @@ public class User {
         this.maintenance = maintenance;
         this.experiments = new ArrayList<>();
     }
+
+    public ObjectId getId() {
+        return id;
+    }
     
     public User() {
         
@@ -84,7 +88,7 @@ public class User {
             role = "user";
         }
         
-        String info = "Username: " + this.username + "\nRole: " + role 
+        String info = "Username: " + this.username + "\nPassword: " + this.password + "\nRole: " + role 
                 + "\nExperiments in list: " + this.experiments.size();
         
         return info;
