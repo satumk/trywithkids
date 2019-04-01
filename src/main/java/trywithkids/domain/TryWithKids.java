@@ -1,8 +1,13 @@
 
 package trywithkids.domain;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import trywithkids.database.Database;
 import trywithkids.database.DatabaseUsers;
 
@@ -115,13 +120,25 @@ public class TryWithKids {
     }
     
     /**
+     * deletes a single experiment from userlist. Params are User-class instance (whose list) and experiment 
+     * to be deleted.
+     * @param userfromGUI
+     * @param exp 
+     */
+    public void deleteFromUserlist(User userfromGUI, int index) {
+        User userinDatabase = this.userDatabase.findUser(userfromGUI);
+        userinDatabase.getExperiments().remove(index);
+        this.userDatabase.updateUser(userfromGUI, userinDatabase);
+    }
+    
+    /**
      * returns the experiments of an individual user
      * @param user
      * @return 
      */
     public List<Experiment> viewUsersExperimentsList(User user) {
-        //view the list of the user
-        List<Experiment> userExpList = user.getExperiments();
+        User userinDatabase = this.userDatabase.findUser(user);
+        List<Experiment> userExpList = userinDatabase.getExperiments();
         return userExpList;
     }
     
@@ -153,6 +170,26 @@ public class TryWithKids {
     public List<User> findAllUsers() {
         List<User> fromDatabase = this.userDatabase.findAll();
         return fromDatabase;
+    }
+    
+    
+    public void print(Experiment exp) throws IOException {
+        
+        PDDocument document = new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+ 
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+ 
+        contentStream.setFont(PDType1Font.HELVETICA, 12);
+        contentStream.beginText();
+        contentStream.showText(exp.toString());
+        contentStream.endText();
+        contentStream.close();
+
+        document.save("Experiment.pdf");
+        document.close();
+        
     }
     
     /**

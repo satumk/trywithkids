@@ -41,7 +41,6 @@ public class GUI extends Application {
         DatabaseUsers userDatabase = new DatabaseUsers(morphia, datastore);
         this.trywithkids = new TryWithKids(database, userDatabase);
         
-        userDatabase.clearDatabaseOfUsers();
         if (trywithkids.getUserN() == 0) {
             this.trywithkids.addDefaultMaintenance();
             this.trywithkids.addDefaultEnduser();
@@ -74,7 +73,7 @@ public class GUI extends Application {
         Button updateButton = new Button("Update");
         Button searchButton = new Button("Search");
         Button deleteButton = new Button("Delete");
-        Button viewButton = new Button("Browse all");
+        Button viewButton = new Button("Browse");
         Button usersButton = new Button("Users");
         Button signoutButton = new Button("Sign out");
         

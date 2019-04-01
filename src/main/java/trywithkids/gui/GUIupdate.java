@@ -22,7 +22,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
-import trywithkids.domain.User;
 
 public class GUIupdate {
     private TryWithKids tryWithKids;
