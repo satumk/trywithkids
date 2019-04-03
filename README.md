@@ -13,9 +13,9 @@ children so they can browse the experiments on their own and add interesting exp
 to their personal lists to conduct when they so choose. Users can also change their
 password.
 Some experiments come with the software.
-There will be a way to log into the program (not there yet).
-This program will save passwords in plain text into the database at this time. If
-time allows, salts and hashing will be developed, but not in the third iteration.
+This program will save passwords in plain text into the database at this time. Although
+developer is aware salting and hashing of passwords is advised, there is insufficient
+time to learn to do this properly during this course.
 The database-solution is MongoDB. 
 
 ## Environment
@@ -38,11 +38,21 @@ It is possible to delete an experiment from the database (from gui), update an e
 by subject, by maximum desired duration or both.
 These features are tested with JUnit.
 
-### Iteration 3: by 7th April
+### Iteration 3: 
 Ability for maintenance-type users to add and delete users.
+Ability for maintenance-type users to see all uses.
 Ability to change password.
 Ability to log in.
 Different views for different user-types.
+Ability to add experiments to users own list. Ability to see own list and delete from it.
+Ability to print experiments from application : the pdf is saved to TryWithKids main folder. 
+In Netbeans it can be found in the files-section. The name of the document is named after the experiment
+topic (+ .pdf).
+
+## Iteration 4: by 21st of April
+Ability to add an evaluation of an experiment
+Ability to see average evaluation score given to an experiment
+JUnit tests (excluding GUI) at least 70%
 
 ## How to install this software
 Install Netbeans by following instructions here: http://moocfi.github.io/courses/general/programming/how-to-get-started.html
@@ -71,7 +81,7 @@ are saved in plain text (String) at this time. All maintenance-type users can se
 user passwords that are stored in the same device. From the security -point of view this is
 not wise, but from the teacher's point of view, this is almost a must as they need
 to help students login very frequently. Passwords should be salted and hashed. 
-
+However, they will not be at this time.
 
 ## Known bugs at this time:
 - listview scrolls also horizontally. Content should be wrapped.
@@ -80,7 +90,7 @@ did not save to database
 - in add experiment the user can add more text than the database can handle causing
 save to fail
 - error messages remain in window until user visits another part of application
-- view window needs ability to see all or see own list
+- Maintance-user can delete themselves. A change will be coded, so user cannot delete themselves.
 
 ## Creator information 
 The creator and developer for this project is Satu Korhonen.

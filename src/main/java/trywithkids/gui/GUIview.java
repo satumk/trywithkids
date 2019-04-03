@@ -1,6 +1,7 @@
 
 package trywithkids.gui;
 
+import com.itextpdf.text.DocumentException;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -90,9 +91,7 @@ public class GUIview {
                 VBox newStage = new VBox();
                 newStage.setSpacing(10);
                 newStage.setPadding(new Insets(20, 20, 20, 20));
-                newStage.getChildren().addAll(topicLabel, addToListButton); 
-                newStage.getChildren().add(new Label("This will be available in iteration 4"));
-                newStage.getChildren().add(printButton);
+                newStage.getChildren().addAll(topicLabel, addToListButton, printButton); 
                 newStage.getChildren().add(new Label("This will be available in iteration 4"));
                 newStage.getChildren().addAll(evalButton, cancelButton);
 
@@ -107,10 +106,11 @@ public class GUIview {
                 });
 
                 printButton.setOnAction((event) -> {
-                    System.out.println("Printing does not work yet. this will become available in the 4th iteration");
                     try {
                         print(expToList);
                     } catch (IOException ex) {
+                        Logger.getLogger(GUIview.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (DocumentException ex) {
                         Logger.getLogger(GUIview.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     newWindow.hide();
@@ -195,7 +195,7 @@ public class GUIview {
         this.user.addExperiment(exp);
     }
     
-    public void print(Experiment exp) throws IOException {
+    public void print(Experiment exp) throws IOException, DocumentException {
         this.tryWithKids.print(exp);
     }
     

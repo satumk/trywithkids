@@ -1,13 +1,18 @@
 
 package trywithkids.domain;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import trywithkids.database.Database;
 import trywithkids.database.DatabaseUsers;
 
@@ -173,23 +178,65 @@ public class TryWithKids {
     }
     
     
-    public void print(Experiment exp) throws IOException {
+    public void print(Experiment exp) throws IOException, DocumentException {
         
-        PDDocument document = new PDDocument();
-        PDPage page = new PDPage();
-        document.addPage(page);
- 
-        PDPageContentStream contentStream = new PDPageContentStream(document, page);
- 
-        contentStream.setFont(PDType1Font.HELVETICA, 12);
-        contentStream.beginText();
-        contentStream.showText(exp.toString());
-        contentStream.endText();
-        contentStream.close();
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(exp.getTopic() + ".pdf"));
+        document.open();
+        Font font = FontFactory.getFont(FontFactory.COURIER, 14, BaseColor.BLACK);
+        Font font2 = FontFactory.getFont(FontFactory.COURIER, 18, BaseColor.BLACK);
+        Font font3 = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        Chunk chunk = new Chunk("Experiment directions\n", font2);
+        Chunk topicHead = new Chunk("\nTopic: ", font3);
+        Chunk chunkTopic = new Chunk(exp.getTopic(), font3);
+        Chunk change = new Chunk("\n", font);
+        Chunk subject = new Chunk(exp.getSubject(), font);
+        Chunk durationHead = new Chunk("\nDuration: ", font3);
+        String durationString = String.valueOf(exp.getDuration());
+        Chunk durationChunk = new Chunk(durationString, font);
+        Chunk waitTime = new Chunk("\nWaiting time: " + exp.getWaitTime(), font);
+        Chunk materialsHead = new Chunk("\nMaterials:\n", font3);
+        Chunk materials = new Chunk(exp.getMaterials(), font);
+        Chunk directionsHead = new Chunk("\nDirections:\n", font3);
+        Chunk directions = new Chunk(exp.getDirections(), font);
+        Chunk scienceHead = new Chunk("\nThe Science behind the experiment: ", font3);
+        Chunk science = new Chunk(exp.getTheScience(), font);
+        Chunk notesHead = new Chunk("\nNotes:", font3);
+        Chunk notes = new Chunk(exp.getNotes(), font);
+        
+        Paragraph info = new Paragraph();
+        info.add(chunk);
+        info.add(topicHead);
+        info.add(chunkTopic);
+        info.add(change);
+        info.add(subject);
+        
+        Paragraph durationPara = new Paragraph();
+        durationPara.add(durationHead);
+        durationPara.add(durationChunk);
+        durationPara.add(waitTime);
+        
+        Paragraph materialsPara = new Paragraph();
+        materialsPara.add(materialsHead);
+        materialsPara.add(materials);
+        
+        Paragraph direcPara = new Paragraph();
+        direcPara.add(directionsHead);
+        direcPara.add(directions);
+        direcPara.add(notesHead);
+        direcPara.add(notes);
+        
+        Paragraph sciencePara = new Paragraph();
+        sciencePara.add(scienceHead);
+        sciencePara.add(science);
+        
+        document.add(info);
+        document.add(durationPara);
+        document.add(materialsPara);
+        document.add(direcPara);
+        document.add(sciencePara);
 
-        document.save("Experiment.pdf");
         document.close();
-        
     }
     
     /**

@@ -2,6 +2,7 @@
 package trywithkids.domain;
 
 import com.mongodb.MongoClient;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -250,7 +251,24 @@ public class TryWithKidsTest {
         Experiment one = new Experiment(subject, topic, duration, waittime, materials, directions, notes, science);
         String shortInfo = one.shortInfo();
         assertEquals("Experiment: test topic\nDuration of experiment: 10 minutes\nWaiting time: none\nMaterials: patience and time", shortInfo);
-        // lisää tähän toString testi samaan tai tee seuraavaan.
+    }
+    
+    @Test
+    public void experimentToString() {
+        String subject = "Physics";
+        String topic = "test topic";
+        String materials ="patience and time";
+        String directions = "set test, test and study results";
+        String waittime = "none";
+        int duration = 10;
+        String notes = "none";
+        String science = "very little";
+        
+        Experiment one = new Experiment(subject, topic, duration, waittime, materials, directions, notes, science);
+        String info = one.toString();
+        assertEquals("\nSubject: Physics\nExperiment: test topic\nDuration of experiment: 10"
+                + " minutes\nWaiting time: none\nMaterials: patience and time\nDirections: \n"
+                + "set test, test and study results\nNotes on this experiment: none\nThe Science: very little\n", info);
     }
     
     @Test
@@ -264,6 +282,9 @@ public class TryWithKidsTest {
         List<User> users = t.findAllUsers();
         assertEquals(1, users.size());
         assertEquals(true, users.get(0).getMaintenance());
+        assertEquals("maintenance", users.get(0).getUsername());
+        assertEquals("main_auth123", users.get(0).getPassword());
+        assertEquals(0, users.get(0).getExperiments().size());
     }
     
     @Test
@@ -272,6 +293,140 @@ public class TryWithKidsTest {
         t.addDefaultEnduser();
         List<User> users = t.findAllUsers();
         assertEquals(2, users.size());
+        assertEquals(true, users.get(0).getMaintenance());
         assertEquals(false, users.get(1).getMaintenance());
     }
+    
+    @Test
+    public void setUser() {
+        String username = "test";
+        String password = "testPass";
+        Boolean maintenance = false;
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setMaintenance(maintenance);
+        assertEquals("test", newUser.getUsername());
+        assertEquals("testPass", newUser.getPassword());
+        assertEquals(false, newUser.getMaintenance());
+    }
+    
+    @Test
+    public void userToStringMaintenance() {
+        t.addDefaultMaintenance();
+        List<User> users = t.findAllUsers();
+        String userToString = users.get(0).toString();
+        assertEquals("Username: maintenance\nPassword: main_auth123\nRole: maintenance\nExperiments in list: 0", userToString);
+    }
+    
+    @Test 
+    public void userToStringEnduser() {
+        t.addDefaultEnduser();
+        List<User> users = t.findAllUsers();
+        String userToString = users.get(0).toString();
+        assertEquals("Username: end-user\nPassword: end_auth987\nRole: user\nExperiments in list: 0", userToString);
+    }
+     
+    @Test
+    public void deleteUser() {
+        assertEquals(0, t.getUserN());
+        t.addDefaultEnduser();
+        assertEquals(1, t.getUserN());
+        List<User> users = t.findAllUsers();
+        User user = users.get(0);
+        t.deleteUser(user);
+        assertEquals(0, t.getUserN());
+    }
+    
+    @Test
+    public void changePassword() {
+        t.addDefaultEnduser();
+        User test = t.findAllUsers().get(0);
+        String password = test.getPassword();
+        assertEquals("end_auth987",password);
+        String newPass = "ending";
+        assertEquals("ending", newPass);
+        String newerPass = "beginning";
+        t.changePassword(test, newerPass);
+        User test2 = t.findAllUsers().get(0);
+        assertEquals("beginning", test2.getPassword());
+    }
+    
+    @Test
+    public void addUserGUI() {
+        String name = "test";
+        String pass = "test1";
+        Boolean admin = true;
+        t.addUserThroughGUI(name, pass, admin);
+        User user = t.findAllUsers().get(0);
+        assertEquals("test", user.getUsername());
+        assertEquals("test1", user.getPassword());
+        assertEquals(true, user.getMaintenance());
+    }
+    
+    @Test
+    public void checkUserName() {
+        t.addDefaultEnduser();
+        assertEquals(true, t.checkUsernameExists("end-user"));    
+    }
+    
+    @Test
+    public void checkUser() {
+        String falseName = "false";
+        String falsePass = "false1";
+        
+        assertEquals(2, t.checkUser("end-user", falsePass));
+        t.addDefaultEnduser();
+        t.addDefaultMaintenance();
+                
+        assertEquals(4, t.checkUser("end-user", "end_auth987"));
+        
+        t.addDefaultEnduser();
+        assertEquals(1, t.checkUser("end-user", "end_auth987"));
+        
+        assertEquals(3, t.checkUser("maintenance", "end_auth987"));  
+    }
+    
+    @Test
+    public void login() {
+        t.addDefaultMaintenance();
+        t.checkUser("maintenance", "main_auth123");
+        assertEquals("maintenance", t.login().getUsername());
+    }
+    
+    @Test
+    public void findUsername() {
+        t.addDefaultMaintenance();
+        t.addDefaultMaintenance();
+        assertEquals(true, u.findUsername("maintenance"));
+        assertEquals(false, u.findUsername("end-user"));
+    }
+    
+    @Test
+    public void addExpToUserAndDelete() {
+        t.addDefaultMaintenance();
+        
+        String subject = "Physics";
+        String topic = "test topic";
+        String materials ="patience and time";
+        String directions = "set test, test and study results";
+        String waittime = "none";
+        int duration = 10;
+        String notes = "none";
+        String science = "very little";
+        
+        Experiment one = new Experiment(subject, topic, duration, waittime, materials, directions, notes, science);
+        t.createExperimentAndSave(subject, topic, duration, waittime, materials, directions, notes, science);
+        
+        Experiment testexp = t.findAll().get(0);
+        
+        User user = t.findAllUsers().get(0);
+        t.addExpToUser(user, testexp);
+        List<Experiment> usersList = t.viewUsersExperimentsList(user);
+        assertEquals(1, usersList.size());
+        t.deleteFromUserlist(user, 0);
+        List<Experiment> usersList2 = t.viewUsersExperimentsList(user);
+        assertEquals(0, usersList2.size());
+    }
+
 }
