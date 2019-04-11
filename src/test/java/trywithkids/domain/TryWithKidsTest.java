@@ -12,6 +12,10 @@ import trywithkids.database.DatabaseUsers;
 import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
 
+/**
+ *
+ * @author satu
+ */
 public class TryWithKidsTest {
 
     TryWithKids t;
@@ -20,6 +24,10 @@ public class TryWithKidsTest {
     Datastore d;
     DatabaseUsers u;
 
+    /**
+     * Before each test morphia is setup, trywithkids and gui is mapped, datastore is created, database +
+     * databaseUsers is created and both are cleared.
+     */
     @Before
     public void setUp() {
         m = new Morphia();
@@ -35,28 +43,28 @@ public class TryWithKidsTest {
         
     }
 
+    /**
+     * tests for presense of experiments in the beginning
+     */
     @Test
     public void noExperimentsInBeginning() {
         assertEquals(0, t.databaseSize());
     }
     
+    /**
+     * tests whether there are four startup experiments in the database as there should be
+     * in the beginning. Does the databaseSize-method work?
+     */
     @Test
     public void starterExperiments() {
         t.addStarterExperiments();
         assertEquals(4, t.databaseSize());
     }
     
-    @Test
-    public void getExperiments() {
-        t.addStarterExperiments();
-        assertEquals(4, t.databaseSize());
-    }
     
-    @Test
-    public void databaseEmptyInBeginning() {
-        assertEquals(0, t.findAll().size());
-    }
-    
+    /**
+     * one experiment is saved to database and then checked if the database size is increased by 1
+     */
     @Test
     public void saveOneToDatabase() {
         String subject = "Physics";
@@ -73,6 +81,9 @@ public class TryWithKidsTest {
         assertEquals(1, t.databaseSize());
     }
     
+    /**
+     * clears database test - does it clear the database of experiments
+     */
     @Test
     public void clearDatabase() {
         t.addStarterExperiments();
@@ -80,18 +91,18 @@ public class TryWithKidsTest {
         assertEquals(0, t.databaseSize());
     }
     
-    @Test
-    public void sizeOfDatabase() {
-        t.addStarterExperiments();
-        assertEquals(4, t.databaseSize());
-    }
-    
+    /**
+     * does findAll work and bring back four as it should
+     */
     @Test
     public void findAll() {
         t.addStarterExperiments();
         assertEquals(4, t.findAll().size());
     }
     
+    /**
+     * tests search by subject and duration
+     */
     @Test
     public void searchBothCriteria() {
         t.addStarterExperiments();
@@ -100,6 +111,9 @@ public class TryWithKidsTest {
         assertEquals(2, search.size());
     }
     
+    /**
+     * search by subject is tested
+     */
     @Test
     public void searchPhysics() {
         t.addStarterExperiments();
@@ -108,6 +122,9 @@ public class TryWithKidsTest {
         assertEquals(1, subjectSearch.size());
     }
     
+    /**
+     * search by duration is tested
+     */
     @Test
     public void searchDuration() {
         t.addStarterExperiments();
@@ -116,6 +133,9 @@ public class TryWithKidsTest {
         assertEquals(1, durationSearch.size());
     }
     
+    /**
+     * search without criteria with empty subject, should return empty.
+     */
     @Test
     public void searchEmptyCriteria() {
         t.addStarterExperiments();
@@ -124,6 +144,9 @@ public class TryWithKidsTest {
         assertEquals(0, durationSearch.size());
     }
     
+    /**
+     * tests delete one-method
+     */
     @Test
     public void deleteOne() {
         t.addStarterExperiments();
@@ -134,6 +157,9 @@ public class TryWithKidsTest {
         assertEquals(3, t.findAll().size());
     }    
     
+    /**
+     * updating an experiment with an "empty" subject, the subject should not change
+     */
     @Test
     public void updateEmptySubject() {
         String subject = "Physics";
@@ -160,6 +186,10 @@ public class TryWithKidsTest {
         assertEquals("Physics", subjectTest);
     }
     
+    /**
+     * checks whether one can remove duration info from database (they should not be able to). previous value
+     * should remain
+     */
     @Test
     public void updateEmptyDuration() {
         String subject = "Physics";
@@ -186,6 +216,9 @@ public class TryWithKidsTest {
         assertEquals(20, durationTest);
     }
     
+    /**
+     * tests update
+     */
     @Test
     public void update() {
         String subject = "Physics";
@@ -237,6 +270,9 @@ public class TryWithKidsTest {
         assertEquals("none", waittimeTest);
     }
     
+    /**
+     * tests shortinfo content
+     */
     @Test
     public void shortInfo() {
         String subject = "Physics";
@@ -253,6 +289,9 @@ public class TryWithKidsTest {
         assertEquals("Experiment: test topic\nDuration of experiment: 10 minutes\nWaiting time: none\nMaterials: patience and time", shortInfo);
     }
     
+    /**
+     * tests to string content
+     */
     @Test
     public void experimentToString() {
         String subject = "Physics";
@@ -271,11 +310,17 @@ public class TryWithKidsTest {
                 + "set test, test and study results\nNotes on this experiment: none\nThe Science: very little\n", info);
     }
     
+    /**
+     * tests that there are no users in the database in the beginning
+     */
     @Test
     public void noUsersInBeginning() {
         assertEquals(0, t.getUserN());
     }
     
+    /**
+     * adds default maintenance and checks user amount and their credentials
+     */
     @Test
     public void addDefaultMaintenance() {
         t.addDefaultMaintenance();
@@ -287,6 +332,9 @@ public class TryWithKidsTest {
         assertEquals(0, users.get(0).getExperiments().size());
     }
     
+    /**
+     * tests the same for end-user
+     */
     @Test
     public void addDefaultEnduser() {
         t.addDefaultMaintenance();
@@ -297,6 +345,9 @@ public class TryWithKidsTest {
         assertEquals(false, users.get(1).getMaintenance());
     }
     
+    /**
+     * sets a new user
+     */
     @Test
     public void setUser() {
         String username = "test";
@@ -311,6 +362,9 @@ public class TryWithKidsTest {
         assertEquals(false, newUser.getMaintenance());
     }
     
+    /**
+     * checks user tostring method content n maintenance
+     */
     @Test
     public void userToStringMaintenance() {
         t.addDefaultMaintenance();
@@ -319,6 +373,9 @@ public class TryWithKidsTest {
         assertEquals("Username: maintenance\nPassword: main_auth123\nRole: maintenance\nExperiments in list: 0", userToString);
     }
     
+    /**
+     * checks user to string method content in end-user
+     */
     @Test 
     public void userToStringEnduser() {
         t.addDefaultEnduser();
@@ -327,6 +384,9 @@ public class TryWithKidsTest {
         assertEquals("Username: end-user\nPassword: end_auth987\nRole: user\nExperiments in list: 0", userToString);
     }
      
+    /**
+     * deletes a specific user
+     */
     @Test
     public void deleteUser() {
         assertEquals(0, t.getUserN());
@@ -338,6 +398,9 @@ public class TryWithKidsTest {
         assertEquals(0, t.getUserN());
     }
     
+    /**
+     * changes the password of a specific user
+     */
     @Test
     public void changePassword() {
         t.addDefaultEnduser();
@@ -352,6 +415,9 @@ public class TryWithKidsTest {
         assertEquals("beginning", test2.getPassword());
     }
     
+    /**
+     * adds user through GUI (method, not actually through GUI) 
+     */
     @Test
     public void addUserGUI() {
         String name = "test";
@@ -364,12 +430,18 @@ public class TryWithKidsTest {
         assertEquals(true, user.getMaintenance());
     }
     
+    /**
+     * checks username
+     */
     @Test
     public void checkUserName() {
         t.addDefaultEnduser();
         assertEquals(true, t.checkUsernameExists("end-user"));    
     }
     
+    /**
+     * checks user credentials
+     */
     @Test
     public void checkUser() {
         String falseName = "false";
@@ -387,6 +459,9 @@ public class TryWithKidsTest {
         assertEquals(3, t.checkUser("maintenance", "end_auth987"));  
     }
     
+    /**
+     * does login return a user
+     */
     @Test
     public void login() {
         t.addDefaultMaintenance();
@@ -394,14 +469,19 @@ public class TryWithKidsTest {
         assertEquals("maintenance", t.login().getUsername());
     }
     
+    /**
+     * does username exist
+     */
     @Test
     public void findUsername() {
-        t.addDefaultMaintenance();
         t.addDefaultMaintenance();
         assertEquals(true, u.findUsername("maintenance"));
         assertEquals(false, u.findUsername("end-user"));
     }
     
+    /**
+     * can an experiment be added to user and deleted from them
+     */
     @Test
     public void addExpToUserAndDelete() {
         t.addDefaultMaintenance();

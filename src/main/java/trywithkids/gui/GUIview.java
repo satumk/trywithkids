@@ -24,20 +24,35 @@ import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
 import trywithkids.domain.User;
 
-
+/**
+ * GUI to browse experiments, add them to own list and view own list
+ * @author satu
+ */
 public class GUIview {
     
     private TryWithKids tryWithKids;
     private User user;
     
+    /**
+     *
+     * @param tryWithKids sets the trywithkids application logic to the view
+     */
     public GUIview(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
+    /**
+     * sets user onto this view
+     * @param user user-instance currently using the program
+     */
     public void setUser(User user) {
         this.user = user;
     }
     
+    /**
+     * returns view 
+     * @return view of browse for the user
+     */
     public Parent getView() {
         List<Experiment> experiments = this.tryWithKids.findAll();
         
@@ -190,15 +205,30 @@ public class GUIview {
 
     }
     
+    /**
+     * takes experiment as param and passes it, as well as info about user, onto trywithkids 
+     * so experiment can be added to users list.
+     * @param exp Experiment-class instance to be added to the current user
+     */
     public void addExpToUser(Experiment exp) {
         this.tryWithKids.addExpToUser(user, exp);
         this.user.addExperiment(exp);
     }
     
+    /**
+     * passes experiment onto trywithkids to be printed to PDF
+     * @param exp experiment-class instance to be printed
+     * @throws IOException should something go wrong
+     * @throws DocumentException should something go wrong
+     */
     public void print(Experiment exp) throws IOException, DocumentException {
         this.tryWithKids.print(exp);
     }
     
+    /**
+     * deletes one experiment from users own list. Param is the index of the experiment on the users list.
+     * @param index indec (int) that is used to target the delete-operation to the correct experiment on users list
+     */
     public void deleteFromList(int index) {
         this.tryWithKids.deleteFromUserlist(this.user, index);
     }

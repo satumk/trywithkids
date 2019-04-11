@@ -23,13 +23,25 @@ import javafx.stage.Stage;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
 
+/**
+ * update view
+ * @author satu
+ */
 public class GUIupdate {
     private TryWithKids tryWithKids;
     
+    /**
+     *
+     * @param tryWithKids sets the trywithkids application logic to the view
+     */
     public GUIupdate(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
+    /**
+     * returns view
+     * @return view of updating experiments
+     */
     public Parent getView() {
         List<Experiment> experiments = this.tryWithKids.findAll();
         
@@ -252,6 +264,18 @@ public class GUIupdate {
         return master;
     }
 
+    /**
+     * passes information in params) onto trywithkids so an experiment may be updated
+     * @param updateExp Experiment-class instance to be updated
+     * @param subject String updated info
+     * @param topic String updated info
+     * @param duration int updated info
+     * @param waittime String updated info
+     * @param materials String updated info
+     * @param directions String updated info
+     * @param notes String updated info
+     * @param thescience String updated info
+     */
     public void update(Experiment updateExp, String subject, String topic, int duration, String waittime, String materials, String directions, String notes, String thescience) {
         this.tryWithKids.update(updateExp, subject, topic, duration, waittime, materials, directions, notes, thescience);
     }

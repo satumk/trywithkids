@@ -19,14 +19,25 @@ import javafx.scene.layout.VBox;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
 
-
+/**
+ * search GUI
+ * @author satu
+ */
 public class GUIsearch {
     private TryWithKids tryWithKids;
     
+    /**
+     *
+     * @param tryWithKids sets the trywithkids application logic to the view
+     */
     public GUIsearch(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
+    /**
+     * returns view
+     * @return view of search 
+     */
     public Parent getView() {
         BorderPane setting = new BorderPane();
         

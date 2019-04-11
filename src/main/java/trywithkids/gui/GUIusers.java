@@ -24,21 +24,33 @@ import trywithkids.domain.TryWithKids;
 import trywithkids.domain.User;
 
 /**
- *
+ * GUI for admin-users (maintenance) to see user information
  * @author satu
  */
 public class GUIusers {
     private TryWithKids tryWithKids;
     private User user;
     
+    /**
+     *
+     * @param tryWithKids sets the trywithkids application logic to the view
+     */
     public GUIusers(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
+    /**
+     * sets user information for GUI
+     * @param user sets user info for app, so maintenance-class user can see other users and their own info
+     */
     public void setUser(User user) {
         this.user = user;
     }
     
+    /**
+     * returns view
+     * @return view of users
+     */
     public Parent getView() {
         VBox vb = new VBox();
         vb.setPadding(new Insets(20, 20, 20, 20));
@@ -283,7 +295,11 @@ public class GUIusers {
         return vb;
     }    
     
-    // deleting the user from trywithkids
+
+    /**
+     * passes the user to trywithkids to be deleted
+     * @param user user-class instance to be deleted
+     */
     public void deleteOne(User user) {
         this.tryWithKids.deleteUser(user);
     }

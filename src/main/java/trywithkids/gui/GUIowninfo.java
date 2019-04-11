@@ -13,19 +13,34 @@ import javafx.scene.layout.VBox;
 import trywithkids.domain.TryWithKids;
 import trywithkids.domain.User;
 
-
+/**
+ * view to see end-users own info
+ * @author satu
+ */
 public class GUIowninfo {
     private TryWithKids tryWithKids;
     private User user;
     
+    /**
+     * constructor
+     * @param tryWithKids sets the trywithkids application logic to the view
+     */
     public GUIowninfo(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
+    /**
+     * sets user-info onto the view
+     * @param user sets user-info for the application, so user is able to view their own info
+     */
     public void setUser(User user) {
         this.user = user;
     } 
     
+    /**
+     * returns view
+     * @return view of the userinfo
+     */
     public Parent getView() {
         BorderPane bp = new BorderPane();
         
@@ -115,6 +130,10 @@ public class GUIowninfo {
         return bp;
     }
     
+    /**
+     * returns the toString-method of this.user
+     * @return String user info
+     */
     public String getInfo() {
         return this.user.toString();
     }

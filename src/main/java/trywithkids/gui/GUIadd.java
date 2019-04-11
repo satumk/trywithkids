@@ -13,15 +13,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import trywithkids.domain.TryWithKids;
 
-
+/**
+ * userinterface to add experiments to application
+ * @author satu
+ */
 public class GUIadd {
     
     private TryWithKids tryWithKids;
     
+    /**
+     * Constructor
+     * @param tryWithKids instance of application logic set onto view
+     */
     public GUIadd(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
+    /**
+     * gets the view
+     * @return view from adding experiment for maintenance-class user
+     */
     public Parent getView() {
         ScrollPane sp = new ScrollPane();
         

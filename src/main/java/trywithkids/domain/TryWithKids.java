@@ -29,7 +29,8 @@ public class TryWithKids {
     /**
      * The constructor takes as parameter instance of class database (for experiments) 
      * and databaseUsers (for users) that is used when using the MongoDB database.
-     * @param database 
+     * @param database instance of class database (for experiments) 
+     * @param userdatabase instance of class database (for users) 
      */
     public TryWithKids(Database database, DatabaseUsers userdatabase) {
         this.database = database;
@@ -38,7 +39,7 @@ public class TryWithKids {
     
     /**
      * Returns this.user so other parts of program know which user is using the software
-     * @return 
+     * @return this specific user-instance to pass onward to GUI to determine which views are allowed
      */
     public User login() {
         return this.user;
@@ -47,8 +48,8 @@ public class TryWithKids {
     /**
      * Checks if the username is already in use. Param is String username. returns boolean.
      * 
-     * @param usernameGUI
-     * @return 
+     * @param usernameGUI String of the wanted username
+     * @return boolean info whether that specific username is already in use. Only one may exist in database
      */
     public Boolean checkUsernameExists(String usernameGUI) {
         Boolean exists = this.userDatabase.findUsername(usernameGUI);
@@ -62,14 +63,14 @@ public class TryWithKids {
      * if return-value is 3: there is a matching user (just the one), but the supplied password does not match
      * if return-value is 4: there is a matching user and the password matches
      * if return-value is 5: unknown error has occurred.
-     * @param usernameGUI
-     * @param passwdGUI
-     * @return 
+     * @param usernameGUI String of username
+     * @param passwdGUI String of password
+     * @return integer depending on how login went
      */
     public int checkUser(String usernameGUI, String passwdGUI) {
         List<User> users = new ArrayList<>();
         users = this.userDatabase.checkLoginInfo(usernameGUI);
-        if (users.size() == 0) {
+        if (users.isEmpty()) {
             return 2;
         } else if (users.size() > 1) {
             return 1;
@@ -86,20 +87,26 @@ public class TryWithKids {
     /**
      * saves new user to database if password is over 8 char long and username is
      * not already in use in database.
-     * @param username
-     * @param passwd
-     * @param maintenance 
+     * @param username String name selected to represent the user
+     * @param passwd String password selected to guard entry into the program
+     * @param maintenance Boolean whether this user has maintenance-privileges
      */
     public void addUserThroughGUI(String username, String passwd, Boolean maintenance) {
         User newUser = new User(username, passwd, maintenance);
         this.userDatabase.save(newUser);
     }
     
+    /**
+     * Adds default Admin/maintenance user to database + login-info
+     */
     public void addDefaultMaintenance() {
         User newUser = new User("maintenance", "main_auth123", true);
         this.userDatabase.save(newUser);
     }
     
+    /**
+     * Adds default end-user to database + login-info
+     */
     public void addDefaultEnduser() {
         User newUser = new User("end-user", "end_auth987", false);
         this.userDatabase.save(newUser);
@@ -107,7 +114,7 @@ public class TryWithKids {
     
     /**
      * deletes one user from database
-     * @param user 
+     * @param user instance of user-class to be deleted from database
      */
     public void deleteUser(User user) {
         this.userDatabase.delete(user);    
@@ -115,8 +122,8 @@ public class TryWithKids {
     
     /**
      * adds an experiment to userlist. Gets user-param and experiment from GUI, saves to database
-     * @param userfromGUI
-     * @param experiment 
+     * @param userfromGUI User-class instance (from GUI) to which the experiment is added
+     * @param experiment the experiment-instance that is added to the user
      */
     public void addExpToUser(User userfromGUI, Experiment experiment) {
         User userinDatabase = this.userDatabase.findUser(userfromGUI);
@@ -127,8 +134,8 @@ public class TryWithKids {
     /**
      * deletes a single experiment from userlist. Params are User-class instance (whose list) and experiment 
      * to be deleted.
-     * @param userfromGUI
-     * @param exp 
+     * @param userfromGUI  User-instance from which an experiment is deleted from
+     * @param index index of the experiment that is deleted from users list
      */
     public void deleteFromUserlist(User userfromGUI, int index) {
         User userinDatabase = this.userDatabase.findUser(userfromGUI);
@@ -138,8 +145,8 @@ public class TryWithKids {
     
     /**
      * returns the experiments of an individual user
-     * @param user
-     * @return 
+     * @param user instance of user-class, whose experiments one wishes to explore
+     * @return returns a list of those experiments
      */
     public List<Experiment> viewUsersExperimentsList(User user) {
         User userinDatabase = this.userDatabase.findUser(user);
@@ -148,10 +155,9 @@ public class TryWithKids {
     }
     
     /**
-     * changes the password of a user. Returns a boolean if update is successful
-     * @param userfromGUI
-     * @param PassWd
-     * @return 
+     * changes the password of a user. 
+     * @param userfromGUI User-class instance passed from GUI
+     * @param newPassWd new String to be added into the database as password
      */
     public void changePassword(User userfromGUI, String newPassWd) {
         User userinDatabase = this.userDatabase.findUser(userfromGUI);
@@ -161,7 +167,7 @@ public class TryWithKids {
    
     /**
      * returns the number of users in database
-     * @return 
+     * @return integer of users (amount)
      */
     public int getUserN() {
         List<User> fromDatabase = this.userDatabase.findAll();
@@ -170,14 +176,19 @@ public class TryWithKids {
     
     /**
      * Returns a list of all users in database
-     * @return 
+     * @return list of all users in database
      */
     public List<User> findAllUsers() {
         List<User> fromDatabase = this.userDatabase.findAll();
         return fromDatabase;
     }
     
-    
+    /**
+     * Prints the experiment as a PDF-file. Takes one experiment as parameter.
+     * @param exp experiment-class instance that is printed
+     * @throws IOException should something go wrong
+     * @throws DocumentException should something go wrong
+     */
     public void print(Experiment exp) throws IOException, DocumentException {
         
         Document document = new Document();
@@ -242,7 +253,7 @@ public class TryWithKids {
     /**
      * This method saves one instance of class Experiment given as parameter to database by
      * passing in on to class Database.
-     * @param experiment 
+     * @param experiment instance of experiment-class saved to database
      */
     public void saveToDatabase(Experiment experiment) {
         this.database.save(experiment);
@@ -254,14 +265,14 @@ public class TryWithKids {
      * Experiment class. All other variables are String. It then creates an instance
      * of Experiment from this info and passes it on to Database-class.
      * 
-     * @param subject
-     * @param topic
-     * @param duration
-     * @param waitTime
-     * @param materials
-     * @param directions
-     * @param notes
-     * @param theScience 
+     * @param subject String
+     * @param topic String
+     * @param duration Integer
+     * @param waitTime String
+     * @param materials String
+     * @param directions String
+     * @param notes String
+     * @param theScience String
      */
     public void createExperimentAndSave(String subject, String topic, int duration, String waitTime, String materials, String directions, String notes, String theScience) {
         Experiment novel = new Experiment(subject, topic, duration, waitTime, materials, directions, notes, theScience);
@@ -271,7 +282,7 @@ public class TryWithKids {
     /**
      * Method sends a request to class Database to find all experiments in the database and 
      * returns the list it gets back from Database.
-     * @return List<Experiment>
+     * @return a list of all experiments in database
      */
     public List<Experiment> findAll() {
         List<Experiment> fromDatabase = this.database.findAll();
@@ -283,9 +294,9 @@ public class TryWithKids {
      * It then checks, which is valid or if both are, then
      * sends a query-request to database-class instance accordingly.
      * As it receives the search result, it then returns the list to GUI
-     * @param subject
-     * @param duration
-     * @return List<Experiment>
+     * @param subject sought after subject (either physics, chemistry or biology)
+     * @param duration maximum desired duration of experiment
+     * @return a list of all experiments that match these criteria
      */
     public List<Experiment> search(String subject, int duration) {
         List<Experiment> fromDatabase = new ArrayList<>();
@@ -304,7 +315,7 @@ public class TryWithKids {
     /**
      * This utilises the method findAll() to check the amount of experiments in Database by checking
      * the size of the returned list and returning that.
-     * @return int
+     * @return returns the amount of experiments in the database
      */
     public int databaseSize() {
         return findAll().size();
@@ -321,7 +332,7 @@ public class TryWithKids {
     /**
      * Method asks the database-class to delete an experiment that it takes as
      * parameter. It passes this instance on to the database-class to be deleted.
-     * @param experiment 
+     * @param experiment instance of experiment-class to be deleted from database
      */
     public void deleteOne(Experiment experiment) {
         this.database.deleteOne(experiment);
@@ -333,15 +344,15 @@ public class TryWithKids {
      * variables have a value and then creates the updated version of the experiment by using the set-methods
      * in class Experiment. It then passes the old version and the updated version to the
      * Database-class to be updated.
-     * @param updateExp
-     * @param subject
-     * @param topic
-     * @param duration
-     * @param waittime
-     * @param materials
-     * @param directions
-     * @param notes
-     * @param thescience 
+     * @param updateExp Experiment-instance to be updated
+     * @param subject String
+     * @param topic String
+     * @param duration Integer
+     * @param waittime String
+     * @param materials String
+     * @param directions String
+     * @param notes String
+     * @param thescience String
      */
     public void update(Experiment updateExp, String subject, String topic, int duration, String waittime, String materials, String directions, String notes, String thescience) {
         Experiment updating = updateExp;
@@ -374,15 +385,6 @@ public class TryWithKids {
         Experiment one = new Experiment();
         one.setSubject("Biology");
         one.setTopic("Capillaries with celery");
-        /* List<String> materials = new ArrayList<>();
-        String celery = new String("Two or more stems of celery, at least one for each colour you wish to use");
-        String glasses = new String("As many glasses as you have colours you wish to use");
-        String water = new String("water enough to fill each glass 2/3 full");
-        String colours = new String("food colourings (blue works especially well)");
-        materials.add(celery);
-        materials.add(glasses);
-        materials.add(water);
-        materials.add(colours); */
         one.setMaterials("Two or more stems of celery, at least one for each colour you wish to use // As many glasses as you have colours you wish to use // water enough to fill each glass 2/3 full // food colourings (blue works especially well)");
         one.setDuration(5);
         one.setWaitTime("At least a few hours, a day or more for clearest view of capillary veins");
@@ -399,12 +401,6 @@ public class TryWithKids {
         Experiment two = new Experiment();
         two.setSubject("Physics");
         two.setTopic("Make a paper clip hover");
-        /* List<String> materialsTwo = new ArrayList<>();
-        materialsTwo.add(new String("a paper clip"));
-        materialsTwo.add(new String("two magnets (circular ones worked really well)"));
-        materialsTwo.add(new String("a ruler"));
-        materialsTwo.add(new String("some string"));
-        materialsTwo.add(new String("a way to hold the ruler up, f.ex towers made from Dublos"));*/
         two.setMaterials("paper clip // two magnets (circular ones worked really well) // ruler // string // a way to hold the ruler up, f.ex towers made from Dublos");
         two.setDuration(20);
         two.setWaitTime("no waiting time needed");
@@ -425,10 +421,6 @@ public class TryWithKids {
         Experiment three = new Experiment();
         three.setSubject("Biology");
         three.setTopic("Decomposition box");
-        /* List<String> matThree = new ArrayList<>();
-        matThree.add(new String("a plastic box with lid"));
-        matThree.add(new String("decomposing material: paper, tissues, plant material"));
-        matThree.add(new String("non-decomposing material: rocks, tinfoil, screws, plastic, etc."));*/
         three.setMaterials("plastic box with lid // decomposing material: paper, tissues, plant material // non-decomposing material: rocks, tinfoil, screws, plastic, etc.");
         three.setDuration(15);
         three.setWaitTime("Several weeks - some months. Basically some changes happen in weeks, more changes happen the more time the materials have to decompose.");
@@ -443,10 +435,6 @@ public class TryWithKids {
         Experiment four = new Experiment();
         four.setSubject("Chemistry");
         four.setTopic("Magic mud, between liquid and solid");
-        /*List<String> matFour = new ArrayList<>();
-        matFour.add(new String("5 tablespoons of corn starch"));
-        matFour.add(new String("3 tablespoons of water"));
-        matFour.add(new String("(optional) food colouring"));*/
         four.setMaterials("5 tablespoons of corn starch // 3 tablespoons of water // (optional) food colouring");
         four.setDuration(10);
         four.setWaitTime("No waiting time needed");

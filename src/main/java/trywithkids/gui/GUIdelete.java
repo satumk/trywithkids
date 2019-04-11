@@ -19,13 +19,25 @@ import javafx.stage.Stage;
 import trywithkids.domain.Experiment;
 import trywithkids.domain.TryWithKids;
 
+/**
+ * delete-userinterface
+ * @author satu
+ */
 public class GUIdelete {
     private TryWithKids tryWithKids;
     
+    /**
+     *
+     * @param tryWithKids sets the trywithkids application logic to the view
+     */
     public GUIdelete(TryWithKids tryWithKids) {
         this.tryWithKids = tryWithKids;
     }
     
+    /**
+     * returns the view
+     * @return view of delete for maintenance-class user
+     */
     public Parent getView() {
         List<Experiment> experiments = this.tryWithKids.findAll();
         
@@ -107,6 +119,11 @@ public class GUIdelete {
     }
     
     // deleting the document from trywithkids
+
+    /**
+     * passes an experiment onto trywithkids to be deleted
+     * @param exp experiment-class instance
+     */
     public void deleteOne(Experiment exp) {
         this.tryWithKids.deleteOne(exp);
     }

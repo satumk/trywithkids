@@ -25,6 +25,10 @@ import trywithkids.domain.User;
 import xyz.morphia.Datastore;
 import xyz.morphia.Morphia;
 
+/**
+ * Class responsible for launch, login and creating user GUI's, and passing user onto relevant GUI subclasses
+ * @author satu
+ */
 public class GUI extends Application {
     
     private TryWithKids trywithkids;
@@ -180,6 +184,10 @@ public class GUI extends Application {
         window.show();
     }
     
+    /**
+     * Starts up the project
+     * @param args for launching the app
+     */
     public static void main(String[] args) {
         launch(GUI.class);  
     }
