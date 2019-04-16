@@ -62,7 +62,8 @@ public class GUIdelete {
             int index = -1;
                 
             @Override
-            public void changed(ObservableValue<? extends Experiment> observable, Experiment oldValue, Experiment newValue) {
+            public void changed(ObservableValue<? extends Experiment> observable, 
+                    Experiment oldValue, Experiment newValue) {
                 index = listView.getSelectionModel().getSelectedIndex();
                 
                 Experiment deleteExp = experiments.get(index);

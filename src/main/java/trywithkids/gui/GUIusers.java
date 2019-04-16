@@ -41,7 +41,8 @@ public class GUIusers {
     
     /**
      * sets user information for GUI
-     * @param user sets user info for app, so maintenance-class user can see other users and their own info
+     * @param user sets user info for app, so maintenance-class user can see 
+     * other users and their own info
      */
     public void setUser(User user) {
         this.user = user;
@@ -78,10 +79,14 @@ public class GUIusers {
             add.setSpacing(10);
             add.setPadding(new Insets(20, 20, 20, 20));
             Label instruction = new Label("Please fill all boxes below");
+            Label usernameText = new Label("Username:");
             TextArea username = new TextArea("");
             username.setPromptText("Compulsory: please write your username");
+            Label passwordText = new Label("Password:");
             PasswordField password = new PasswordField();
-            password.setPromptText("Compulsory: please choose a password. Must be over 8 characters long");
+            password.setPromptText("Compulsory: please choose a password. Must "
+                    + "be over 8 characters long");
+            Label passwordTextAgain = new Label("Repeat password:");
             PasswordField rewritePasswd = new PasswordField();
             rewritePasswd.setPromptText("Compulsory: please rewrite password");
             Label role = new Label("Compulsory: Please select a role");
@@ -95,7 +100,9 @@ public class GUIusers {
             rolesgroup.setSpacing(10);
             
             Button save = new Button("SAVE");
-            add.getChildren().addAll(instruction, username, password, rewritePasswd, role, rolesgroup, save);
+            add.getChildren().addAll(instruction, usernameText, username, passwordText,
+                    password, passwordTextAgain, rewritePasswd, role, 
+                    rolesgroup, save);
             
             save.setOnAction((event2) -> {
                 Boolean allTextsFilled = false;
@@ -104,7 +111,8 @@ public class GUIusers {
                 Boolean roleFilled = false;
                 Boolean passwdLongEnough = false;
                 
-                if (username.getText().isEmpty() || password.getText().isEmpty() || rewritePasswd.getText().isEmpty()) {
+                if (username.getText().isEmpty() || password.getText().isEmpty() 
+                        || rewritePasswd.getText().isEmpty()) {
                     Label errorMissingInfo = new Label("Please fill all compulsory information");
                     add.getChildren().add(errorMissingInfo);
                 } else {
@@ -131,9 +139,11 @@ public class GUIusers {
                 
                 if (passwordString.length() < 9) {
                     password.clear();
-                    password.setPromptText("Password is not long enough. Must be at least 9 characters long");
+                    password.setPromptText("Password is not long enough. "
+                            + "Must be at least 9 characters long");
                     rewritePasswd.clear();
-                    rewritePasswd.setPromptText("Password is not long enough. Must be at least 9 characters long");
+                    rewritePasswd.setPromptText("Password is not long enough. "
+                            + "Must be at least 9 characters long");
                 } else {
                     passwdLongEnough = true;
                 }
@@ -150,7 +160,9 @@ public class GUIusers {
                     roleFilled = true;
                 }
                 
-                if (allTextsFilled == true && usernameFree == true && passwordsMatch == true && roleFilled == true && passwdLongEnough == true) {
+                if (allTextsFilled == true && usernameFree == true 
+                        && passwordsMatch == true && roleFilled == true 
+                        && passwdLongEnough == true) {
                     this.tryWithKids.addUserThroughGUI(usernameString, passwordString, admin);
                     Label success = new Label("User saved");
                     add.getChildren().add(success);
@@ -175,10 +187,12 @@ public class GUIusers {
             ObservableList<User> observableExperiment = FXCollections.observableList(users);
             listView.setItems(observableExperiment);
             
-            listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<User>() {
+            listView.getSelectionModel().selectedItemProperty()
+                    .addListener(new ChangeListener<User>() {
                 
                 @Override
-                public void changed(ObservableValue<? extends User> observable, User oldValue, User newValue) {
+                public void changed(ObservableValue<? extends User> observable, 
+                        User oldValue, User newValue) {
                     int index = listView.getSelectionModel().getSelectedIndex();
 
                     User deleteUser = users.get(index);
@@ -188,14 +202,18 @@ public class GUIusers {
                     Button yes = new Button("Yes, I am sure");
                     Button no = new Button("Cancel");
                     Label label = new Label("Are you sure you want to delete user");
-                    Label userLabel = new Label(deleteUserName);
+                    Label userLabel = new Label("Username to be deleted: " + deleteUserName);
                     Label makingSure = new Label("You cannot undo this action");
+                    Label lastAdmin = new Label("If deleted user is the last maintenance-"
+                            + "type-user in database, \na new default-maintenance user will"
+                            + " be added to the database");
                     VBox newStage = new VBox();
                     newStage.setSpacing(10);
                     newStage.setPadding(new Insets(20, 20, 20, 20));
                     newStage.getChildren().add(makingSure);
                     newStage.getChildren().add(label);
                     newStage.getChildren().add(userLabel);
+                    newStage.getChildren().add(lastAdmin);
                     newStage.getChildren().add(no);
                     newStage.getChildren().add(yes);
 
@@ -205,12 +223,17 @@ public class GUIusers {
                     newWindow.setScene(secondScene);
 
                     yes.setOnAction((event) -> { 
-                        // deleting from dayabase
+                        // deleting from database
                         deleteOne(deleteUser);
                         //deleting from UI
                         users.remove(index);
                         //showing changes in UI
                         listView.refresh();
+                        //admin-check
+                        if (deleteUser.getMaintenance() == true) {
+                            adminCheck();
+                        } 
+                        
                         newWindow.hide();
                     });
 
@@ -239,7 +262,8 @@ public class GUIusers {
             PasswordField oldPasswd = new PasswordField();
             oldPasswd.setPromptText("Compulsory: write old password here");
             PasswordField newPasswd = new PasswordField();
-            newPasswd.setPromptText("Compulsory: write new password here. Must be over 8 charachers long.");
+            newPasswd.setPromptText("Compulsory: write new password here. "
+                    + "Must be over 8 charachers long.");
             PasswordField newAgain = new PasswordField();
             newAgain.setPromptText("Compulsory: please rewrite new password");
             Button save = new Button("SAVE");
@@ -280,7 +304,8 @@ public class GUIusers {
                     oldpasswdMatchesOneOnFile = true;
                 }
                 
-                if (newPasswordsMatch == true && oldpasswdMatchesOneOnFile == true && passwordOver8Char == true) {
+                if (newPasswordsMatch == true && oldpasswdMatchesOneOnFile == true 
+                        && passwordOver8Char == true) {
                     this.tryWithKids.changePassword(user, newPW);
                     user.setPassword(newPW);
                     Label saved = new Label("New password saved");
@@ -302,5 +327,9 @@ public class GUIusers {
      */
     public void deleteOne(User user) {
         this.tryWithKids.deleteUser(user);
+    }
+    
+    public void adminCheck() {
+        this.tryWithKids.isMaintenancePresent();
     }
 }

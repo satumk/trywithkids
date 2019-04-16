@@ -57,10 +57,12 @@ public class TryWithKids {
     }
     
     /**
-     * Method checks the user credentials with one query. Params are String username and String password from GUI. 
+     * Method checks the user credentials with one query. Params are String 
+     * username and String password from GUI. 
      * If return-value is 1: there are more than 1 user with that database (should not happen)
      * If return-value is 2: there are no users with that username in the database
-     * if return-value is 3: there is a matching user (just the one), but the supplied password does not match
+     * if return-value is 3: there is a matching user (just the one), but 
+     * the supplied password does not match
      * if return-value is 4: there is a matching user and the password matches
      * if return-value is 5: unknown error has occurred.
      * @param usernameGUI String of username
@@ -113,6 +115,25 @@ public class TryWithKids {
     }
     
     /**
+     * Checks the database for the number of maintenance-type users. Check is 
+     * used when deleting admins (maintenance-type user) from the database and 
+     * also in launch, so there is always at least one maintenance-level user
+     * in database.
+     * If there are no admins in database, the method will add the defailt-maintenance
+     * user with default username and password.
+     * @return integer-value of the number of maintenance-type users in database
+     */
+    public int isMaintenancePresent() {
+        int admins = this.userDatabase.findAdmins().size();
+        
+        if (admins < 1) {
+            addDefaultMaintenance();
+        }
+        
+        return admins;
+    }
+    
+    /**
      * deletes one user from database
      * @param user instance of user-class to be deleted from database
      */
@@ -121,7 +142,8 @@ public class TryWithKids {
     }
     
     /**
-     * adds an experiment to userlist. Gets user-param and experiment from GUI, saves to database
+     * adds an experiment to userlist. Gets user-param and experiment from GUI, 
+     * saves to database
      * @param userfromGUI User-class instance (from GUI) to which the experiment is added
      * @param experiment the experiment-instance that is added to the user
      */
@@ -132,7 +154,8 @@ public class TryWithKids {
     }
     
     /**
-     * deletes a single experiment from userlist. Params are User-class instance (whose list) and experiment 
+     * deletes a single experiment from userlist. Params are User-class instance 
+     * (whose list) and experiment 
      * to be deleted.
      * @param userfromGUI  User-instance from which an experiment is deleted from
      * @param index index of the experiment that is deleted from users list
@@ -274,8 +297,16 @@ public class TryWithKids {
      * @param notes String
      * @param theScience String
      */
-    public void createExperimentAndSave(String subject, String topic, int duration, String waitTime, String materials, String directions, String notes, String theScience) {
-        Experiment novel = new Experiment(subject, topic, duration, waitTime, materials, directions, notes, theScience);
+    public void createExperimentAndSave(String subject, 
+            String topic, 
+            int duration, 
+            String waitTime, 
+            String materials, 
+            String directions, 
+            String notes, 
+            String theScience) {
+        Experiment novel = new Experiment(subject, topic, duration, waitTime, 
+                materials, directions, notes, theScience);
         saveToDatabase(novel);
     }
     
@@ -354,7 +385,16 @@ public class TryWithKids {
      * @param notes String
      * @param thescience String
      */
-    public void update(Experiment updateExp, String subject, String topic, int duration, String waittime, String materials, String directions, String notes, String thescience) {
+    public void update(Experiment updateExp, 
+            String subject, 
+            String topic, 
+            int duration, 
+            String waittime, 
+            String materials, 
+            String directions, 
+            String notes, 
+            String thescience) {
+        
         Experiment updating = updateExp;
         
         if (!subject.contains("empty")) {
@@ -385,61 +425,103 @@ public class TryWithKids {
         Experiment one = new Experiment();
         one.setSubject("Biology");
         one.setTopic("Capillaries with celery");
-        one.setMaterials("Two or more stems of celery, at least one for each colour you wish to use // As many glasses as you have colours you wish to use // water enough to fill each glass 2/3 full // food colourings (blue works especially well)");
+        one.setMaterials("Two or more stems of celery, at least one for each "
+                + "colour you wish to use // As many glasses as you have colours "
+                + "you wish to use // water enough to fill each glass 2/3 full "
+                + "// food colourings (blue works especially well)");
         one.setDuration(5);
-        one.setWaitTime("At least a few hours, a day or more for clearest view of capillary veins");
-        one.setDirections("1. Gather all materials. \n2. Add water to each glass you have. \n3. Add food colouring to each glass. "
-                + "\n4. Add celery sticks and leave to wait. \n5. Once waiting time has passed, cut the celery. You can cut it along the stalk to see "
-                + "how the colour rises along the stem. You can also cut across the stem to see a cross-section of the stem.");
-        one.setTheScience("Plants use the capillary veins to bring water from the roots to the leaves. This"
-                + " works in flowers and in trees the same way. As water is vaporised in the leaves, more water"
-                + "gets pulled up to replace the vaporised water. The colour travels with the water, but"
-                + "gets left behind as it does not evaporate, so leaves turn a different colour.");
+        one.setWaitTime("At least a few hours, a day or more for clearest view "
+                + "of capillary veins");
+        one.setDirections("1. Gather all materials. \n2. Add water to each glass "
+                + "you have. \n3. Add food colouring to each glass. "
+                + "\n4. Add celery sticks and leave to wait. \n5. Once waiting "
+                + "time has passed, cut the celery. You can cut it along the stalk to see "
+                + "how the colour rises along the stem. You can also cut across "
+                + "the stem to see a cross-section of the stem.");
+        one.setTheScience("Plants use the capillary veins to bring water from "
+                + "the roots to the leaves. This"
+                + " works in flowers and in trees the same way. As water is "
+                + "vaporised in the leaves, more water"
+                + "gets pulled up to replace the vaporised water. The colour "
+                + "travels with the water, but"
+                + "gets left behind as it does not evaporate, so leaves turn "
+                + "a different colour.");
         one.setNotes("Blue colour is easiest to see and works best for this experiment");
         this.saveToDatabase(one);
         
         Experiment two = new Experiment();
         two.setSubject("Physics");
         two.setTopic("Make a paper clip hover");
-        two.setMaterials("paper clip // two magnets (circular ones worked really well) // ruler // string // a way to hold the ruler up, f.ex towers made from Dublos");
+        two.setMaterials("paper clip // two magnets (circular ones worked really "
+                + "well) // ruler // string // a way to hold the ruler up, f.ex "
+                + "towers made from Dublos");
         two.setDuration(20);
         two.setWaitTime("no waiting time needed");
-        two.setDirections("1. Construct your chosen way to hold the ruler up in the air. \n2. Thread the paper clip with the string"
-                + "so you can pick it up by holding onto just the string. \n3. Place the magnets on either side of the ruler so they hold"
-                + "each other in place. \n4. Place the ruler on top of your support structure."
-                + "\n5. Let the clip hang by the string.\n6.Take the clip so close to the magnets that they touch."
-                + "\n7. Pull the clip slowly downwards by the string until the magnetic pull suddenly disappears and the clip falls."
+        two.setDirections("1. Construct your chosen way to hold the ruler up in "
+                + "the air. \n2. Thread the paper clip with the string"
+                + "so you can pick it up by holding onto just the string. \n3. "
+                + "Place the magnets on either side of the ruler so they hold"
+                + "each other in place. \n4. Place the ruler on top of your "
+                + "support structure."
+                + "\n5. Let the clip hang by the string.\n6.Take the clip so "
+                + "close to the magnets that they touch."
+                + "\n7. Pull the clip slowly downwards by the string until "
+                + "the magnetic pull suddenly disappears and the clip falls."
                 + "\n8. Repeat as many times as you want");
-        two.setTheScience("The magnet pulls the metal that is in the metal clip. If the clip is close enough that it is in "
-                + "the magnetic field of the magnet, the pull of the magnet is stronger than the pull of gravity. "
-                + "Once the clip is far enough away that it no longer is in the magnetic field, the weak force of gravity "
+        two.setTheScience("The magnet pulls the metal that is in the metal clip. "
+                + "If the clip is close enough that it is in "
+                + "the magnetic field of the magnet, the pull of the magnet "
+                + "is stronger than the pull of gravity. "
+                + "Once the clip is far enough away that it no longer is in the "
+                + "magnetic field, the weak force of gravity "
                 + "takes hold again and the clip falls.");
-        two.setNotes("You can involve the child in each step f.ex. Choose how to build the support structure together. "
-                + "Either first show the experiment with the clip and then let the child experiment or give verbal instructions.");
+        two.setNotes("You can involve the child in each step f.ex. Choose how "
+                + "to build the support structure together. "
+                + "Either first show the experiment with the clip and then let "
+                + "the child experiment or give verbal instructions.");
         saveToDatabase(two);
         
         Experiment three = new Experiment();
         three.setSubject("Biology");
         three.setTopic("Decomposition box");
-        three.setMaterials("plastic box with lid // decomposing material: paper, tissues, plant material // non-decomposing material: rocks, tinfoil, screws, plastic, etc.");
+        three.setMaterials("plastic box with lid // decomposing material: paper, "
+                + "tissues, plant material // non-decomposing material: rocks, "
+                + "tinfoil, screws, plastic, etc.");
         three.setDuration(15);
-        three.setWaitTime("Several weeks - some months. Basically some changes happen in weeks, more changes happen the more time the materials have to decompose.");
-        three.setDirections("1. Cut big pieces into smaller ones. \n2. Place both composing and decomposing materials into the plastic box. "
-                + "\n3. Ask the child to guess (make a hypothesis) as to what will decompose and what will stay the same.\n4. Close the lid and place the box somewhere, where temperature is above freezing (above 0 degrees Celsius), but preferably somewhere even warmer "
-                + "than this. Then wait. Come back every few weeks and observe changes. The things that decompose become unrecognisable while things like metal and plastic stay the same.");
-        three.setTheScience("Decomposition is a process where material is broken up by bacteria. This is a long process by which plant material eventually turns into soil. Metals, plastic, rocks etc. do not decay in any timeframe that makes sense to us humans. "
-                + "This is a good experiment explaining why rubbish should always be disposed of properly and not left out in nature.");
-        three.setNotes("It is perfectly fine to forget about this experiment for months. Decay happens on its own.");
+        three.setWaitTime("Several weeks - some months. Basically some changes "
+                + "happen in weeks, more changes happen the more time the materials "
+                + "have to decompose.");
+        three.setDirections("1. Cut big pieces into smaller ones. \n2. Place both "
+                + "composing and decomposing materials into the plastic box. "
+                + "\n3. Ask the child to guess (make a hypothesis) as to what "
+                + "will decompose and what will stay the same.\n4. Close the "
+                + "lid and place the box somewhere, where temperature is above "
+                + "freezing (above 0 degrees Celsius), but preferably somewhere even warmer "
+                + "than this. Then wait. Come back every few weeks and observe "
+                + "changes. The things that decompose become unrecognisable while "
+                + "things like metal and plastic stay the same.");
+        three.setTheScience("Decomposition is a process where material is broken "
+                + "up by bacteria. This is a long process by which plant material "
+                + "eventually turns into soil. Metals, plastic, rocks etc. do not "
+                + "decay in any timeframe that makes sense to us humans. "
+                + "This is a good experiment explaining why rubbish should always "
+                + "be disposed of properly and not left out in nature.");
+        three.setNotes("It is perfectly fine to forget about this experiment for "
+                + "months. Decay happens on its own.");
         saveToDatabase(three);
         
         Experiment four = new Experiment();
         four.setSubject("Chemistry");
         four.setTopic("Magic mud, between liquid and solid");
-        four.setMaterials("5 tablespoons of corn starch // 3 tablespoons of water // (optional) food colouring");
+        four.setMaterials("5 tablespoons of corn starch // 3 tablespoons of water "
+                + "// (optional) food colouring");
         four.setDuration(10);
         four.setWaitTime("No waiting time needed");
-        four.setDirections("1. Mix corn starch, water and food colouring. \n2. Play with the result.\nOptionally add more water or corn starch until you are happy with the texture and behaviour.");
-        four.setTheScience("Magic mud behaves like solid material if force is applied, but otherwise acts as a liquid.");
+        four.setDirections("1. Mix corn starch, water and food colouring. \n2. "
+                + "Play with the result.\nOptionally add more water or corn "
+                + "starch until you are happy with the texture and behaviour.");
+        four.setTheScience("Magic mud behaves like solid material if force is "
+                + "applied, but otherwise acts as a liquid.");
         four.setNotes("Difficult to clean as it acts as solid when force is applied");
         saveToDatabase(four);
     }

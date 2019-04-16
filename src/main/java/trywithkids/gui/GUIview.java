@@ -73,7 +73,7 @@ public class GUIview {
         info.setPadding(new Insets(10, 10, 10, 10));
         Label expInData = new Label("EXPERIMENTS IN DATABASE // In your own list");
         Label actionSelect = new Label("By clicking on an experiment below, you can: ");
-        Label action2 = new Label("In BROWSE ALL: add it to your own list, print it or evaluate it.");
+        Label action2 = new Label("In BROWSE ALL: add it to your own list or print it.");
         Label action3 = new Label("In BROWSE OWN LIST: delete it from your list");
         info.getChildren().addAll(expInData, actionSelect, action2, action3);
 
@@ -87,32 +87,33 @@ public class GUIview {
         listViewAll.setItems(observableExperiment);
         sp.setContent(listViewAll);
         
-        listViewAll.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Experiment>() {
+        listViewAll.getSelectionModel().selectedItemProperty()
+                .addListener(new ChangeListener<Experiment>() {
             int index = -1;
 
             @Override
-            public void changed(ObservableValue<? extends Experiment> observable, Experiment oldValue, Experiment newValue) {
+            public void changed(ObservableValue<? extends Experiment> observable, 
+                    Experiment oldValue, Experiment newValue) {
                 index = listViewAll.getSelectionModel().getSelectedIndex();
 
                 Experiment expToList = experiments.get(index);
                 String topic = expToList.getTopic();
 
-                // creating a popup window to make sure user wants to delete an experiment
+                // creating a popup window to allow user to add experiment
+                // to their list or print the experiment
                 Button addToListButton = new Button("Add to my list");
                 Button printButton = new Button("Print experiment");
-                Button evalButton = new Button("Give feedback on experiment");
                 Button cancelButton = new Button("Cancel");
                 Label topicLabel = new Label(topic);
                 VBox newStage = new VBox();
                 newStage.setSpacing(10);
                 newStage.setPadding(new Insets(20, 20, 20, 20));
                 newStage.getChildren().addAll(topicLabel, addToListButton, printButton); 
-                newStage.getChildren().add(new Label("This will be available in iteration 4"));
-                newStage.getChildren().addAll(evalButton, cancelButton);
+                newStage.getChildren().addAll(cancelButton);
 
                 Scene secondScene = new Scene(newStage, 450, 250);
                 Stage newWindow = new Stage();
-                newWindow.setTitle("Add to your list, give feedback or print");
+                newWindow.setTitle("Add to your list or print");
                 newWindow.setScene(secondScene);
 
                 addToListButton.setOnAction((event) -> { 
@@ -129,11 +130,6 @@ public class GUIview {
                         Logger.getLogger(GUIview.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     newWindow.hide();
-                });
-
-                evalButton.setOnAction((event) -> {
-                    System.out.println("this will become available in the 4th iteration");
-                    //newWindow.hide();
                 });
 
                 cancelButton.setOnAction((event) -> {
@@ -158,11 +154,13 @@ public class GUIview {
             ObservableList<Experiment> ownExperiment = FXCollections.observableList(usersList);
             listViewOwn.setItems(ownExperiment);
 
-            listViewOwn.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Experiment>() {
+            listViewOwn.getSelectionModel().selectedItemProperty()
+                    .addListener(new ChangeListener<Experiment>() {
                 int index = -1;
 
                 @Override
-                public void changed(ObservableValue<? extends Experiment> observable, Experiment oldValue, Experiment newValue) {
+                public void changed(ObservableValue<? extends Experiment> observable, 
+                        Experiment oldValue, Experiment newValue) {
                     index = listViewOwn.getSelectionModel().getSelectedIndex();
 
                     Experiment expDelete = usersList.get(index);
@@ -226,8 +224,10 @@ public class GUIview {
     }
     
     /**
-     * deletes one experiment from users own list. Param is the index of the experiment on the users list.
-     * @param index indec (int) that is used to target the delete-operation to the correct experiment on users list
+     * deletes one experiment from users own list. Param is the index of 
+     * the experiment on the users list.
+     * @param index index (int) that is used to target the delete-operation 
+     * to the correct experiment on users list
      */
     public void deleteFromList(int index) {
         this.tryWithKids.deleteFromUserlist(this.user, index);

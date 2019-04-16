@@ -508,5 +508,18 @@ public class TryWithKidsTest {
         List<Experiment> usersList2 = t.viewUsersExperimentsList(user);
         assertEquals(0, usersList2.size());
     }
-
+    
+    /**
+     * Testing if a default admin is added when last admin is deleted
+     */
+    @Test
+    public void deleteAdmins() {
+        t.addDefaultMaintenance();
+        User admin = t.findAllUsers().get(0);
+        assertEquals(1, t.isMaintenancePresent());
+        t.deleteUser(admin);
+        assertEquals(0, t.findAllUsers().size());
+        t.isMaintenancePresent();
+        assertEquals(1, t.findAllUsers().size());   
+    }
 }

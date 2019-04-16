@@ -107,7 +107,8 @@ public class GUIowninfo {
                 oldpasswdMatchesOneOnFile = true;
             }
                 
-            if (newPasswordsMatch == true && oldpasswdMatchesOneOnFile == true && passwordOver8Char == true) {
+            if (newPasswordsMatch == true && oldpasswdMatchesOneOnFile == true 
+                    && passwordOver8Char == true) {
                 this.tryWithKids.changePassword(user, newPW);
                 user.setPassword(newPW);
                 Label saved = new Label("New password saved");

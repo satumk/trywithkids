@@ -44,11 +44,13 @@ public class GUI extends Application {
         Database database = new Database(morphia, datastore);
         DatabaseUsers userDatabase = new DatabaseUsers(morphia, datastore);
         this.trywithkids = new TryWithKids(database, userDatabase);
-        
+
         if (trywithkids.getUserN() == 0) {
             this.trywithkids.addDefaultMaintenance();
             this.trywithkids.addDefaultEnduser();
         }
+        
+        trywithkids.isMaintenancePresent();
         
         if (trywithkids.databaseSize() == 0) {
             trywithkids.addStarterExperiments(); 

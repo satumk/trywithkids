@@ -49,10 +49,19 @@ Ability to print experiments from application : the pdf is saved to TryWithKids 
 In Netbeans it can be found in the files-section. The name of the document is named after the experiment
 topic (+ .pdf).
 
-## Iteration 4: by 21st of April
-Ability to add an evaluation of an experiment
-Ability to see average evaluation score given to an experiment
+## Iteration 4: 
 JUnit tests (excluding GUI) at least 70%
+Javadoc on all classes and methods - can be found in target-folder -> apidocs-folder
+Documentation : testing report, user guide f.ex. started
+Fixed bugs:
+- maintenance-type user could delete all maintenance-type users from database. Now
+there will always be at least one. If the last one is deleted, the default-maintenance
+user will be automatically added.
+- user can no longer try to add text that is too long for the database when adding 
+experiments. They will also receive a notification if their text length exceeds the limits.
+
+## Iteration 5: by the 3rd of May
+Documentation finished
 
 ## How to install this software
 Install Netbeans by following instructions here: http://moocfi.github.io/courses/general/programming/how-to-get-started.html
@@ -85,12 +94,7 @@ However, they will not be at this time.
 
 ## Known bugs at this time:
 - listview scrolls also horizontally. Content should be wrapped.
-- user-notification is insufficient in add experiments-view. No notification if experiment 
-did not save to database
-- in add experiment the user can add more text than the database can handle causing
-save to fail
 - error messages remain in window until user visits another part of application
-- Maintance-user can delete themselves. A change will be coded, so user cannot delete themselves.
 
 ## Creator information 
 The creator and developer for this project is Satu Korhonen.

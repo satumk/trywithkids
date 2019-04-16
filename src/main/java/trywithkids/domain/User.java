@@ -14,7 +14,8 @@ import xyz.morphia.annotations.Reference;
 /**
  * This class contains the logic of the class User. Its variables are:
  * String username, String password, Boolean maintenance (true = maintenance with full privileges, 
- * false = user without privileges to update, add or delete experiments or users) and list of experiments where
+ * false = user without privileges to update, add or delete experiments or users) 
+ * and list of experiments where
  * individual experiments are added now that users can create personal lists.
  * @author satu
  */
@@ -33,7 +34,8 @@ public class User {
     private List<Experiment> experiments;
     
     /**
-     * Constructor for class user. parameters String username, String password, Boolean maintenance. Also
+     * Constructor for class user. parameters String username, String password, 
+     * Boolean maintenance. Also
      * creates an empty arrayList.
      * @param username String selected to represent the user. 
      * @param password String password to gain entry to user info
@@ -127,7 +129,8 @@ public class User {
     
     /**
      * 
-     * @return String representation of the username, password, and size of their personal list of experiments
+     * @return String representation of the username, password, and size of 
+     * their personal list of experiments
      */
     @Override
     public String toString() {
@@ -138,7 +141,8 @@ public class User {
             role = "user";
         }
         
-        String info = "Username: " + this.username + "\nPassword: " + this.password + "\nRole: " + role 
+        String info = "Username: " + this.username + "\nPassword: " 
+                + this.password + "\nRole: " + role 
                 + "\nExperiments in list: " + this.experiments.size();
         
         return info;

@@ -85,7 +85,9 @@ public class Database {
      * @return a list of all experiments that fit the search criteria
      */
     public List<Experiment> findByBoth(String subject, int duration) {
-        List<Experiment> experiments = datastore.createQuery(Experiment.class).field("subject").contains(subject).field("duration").lessThanOrEq(duration).asList();
+        List<Experiment> experiments = datastore.createQuery(Experiment.class)
+                .field("subject").contains(subject).field("duration")
+                .lessThanOrEq(duration).asList();
         return experiments;
     }
 
@@ -95,7 +97,8 @@ public class Database {
      * @return a list of all experiments that fit the search criteria
      */
     public List<Experiment> findBySubject(String subject) {
-        List<Experiment> experiments = datastore.createQuery(Experiment.class).field("subject").contains(subject).asList();
+        List<Experiment> experiments = datastore.createQuery(Experiment.class)
+                .field("subject").contains(subject).asList();
         return experiments;
     }
 
@@ -106,7 +109,8 @@ public class Database {
      * @return a list of all experiments that fit the search criteria
      */
     public List<Experiment> findByDuration(int duration) {
-        List<Experiment> experiments = datastore.createQuery(Experiment.class).field("duration").lessThanOrEq(duration).asList();
+        List<Experiment> experiments = datastore.createQuery(Experiment.class)
+                .field("duration").lessThanOrEq(duration).asList();
         return experiments;
     }
 }

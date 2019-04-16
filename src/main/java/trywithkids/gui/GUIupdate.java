@@ -62,11 +62,13 @@ public class GUIupdate {
         ObservableList<Experiment> observableExperiment = FXCollections.observableList(experiments);
         listView.setItems(observableExperiment);
         
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Experiment>() {
+        listView.getSelectionModel().selectedItemProperty()
+                .addListener(new ChangeListener<Experiment>() {
             int index = -1;
                 
             @Override
-            public void changed(ObservableValue<? extends Experiment> observable, Experiment oldValue, Experiment newValue) {
+            public void changed(ObservableValue<? extends Experiment> observable, 
+                    Experiment oldValue, Experiment newValue) {
                 index = listView.getSelectionModel().getSelectedIndex();
                 
                 Experiment updateExp = experiments.get(index);
@@ -227,7 +229,9 @@ public class GUIupdate {
                     } 
                     
                     //update database
-                    update(updateExp, subjectToggle, topicTextarea.getText(), durationToggle, waitTime.getText(), materials.getText(), directions.getText(), notes.getText(), theScience.getText());
+                    update(updateExp, subjectToggle, topicTextarea.getText(), 
+                            durationToggle, waitTime.getText(), materials.getText(), 
+                            directions.getText(), notes.getText(), theScience.getText());
                     
                     //update the list in UI
                     experiments.get(index).setSubject(subjectToggle);
@@ -276,7 +280,10 @@ public class GUIupdate {
      * @param notes String updated info
      * @param thescience String updated info
      */
-    public void update(Experiment updateExp, String subject, String topic, int duration, String waittime, String materials, String directions, String notes, String thescience) {
-        this.tryWithKids.update(updateExp, subject, topic, duration, waittime, materials, directions, notes, thescience);
+    public void update(Experiment updateExp, String subject, String topic, 
+            int duration, String waittime, String materials, String directions, 
+            String notes, String thescience) {
+        this.tryWithKids.update(updateExp, subject, topic, duration, waittime, 
+                materials, directions, notes, thescience);
     }
 }

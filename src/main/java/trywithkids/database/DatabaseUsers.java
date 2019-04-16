@@ -56,8 +56,7 @@ public class DatabaseUsers {
      * @return a list of all users in the database
      */
     public List<User> findAll() {
-        Query<User> query = this.datastore.createQuery(User.class);
-        List<User> users = query.asList();
+        List<User> users = this.datastore.createQuery(User.class).asList();
         return users;
     }
 
@@ -77,8 +76,8 @@ public class DatabaseUsers {
      * @return returns a boolean value if there is someone with that username in the database
      */
     public Boolean findUsername(String username) {
-        Query<User> query = this.datastore.createQuery(User.class).field("username").equal(username);
-        List<User> users = query.asList();
+        List<User> users = this.datastore.createQuery(User.class)
+                .field("username").equal(username).asList();
         Boolean exists = false;
         if (users.size() >= 1) {
             exists = true;
@@ -103,9 +102,20 @@ public class DatabaseUsers {
      * @return a list of users with that username in the database. Should be a list of 1 
      */
     public List<User> checkLoginInfo(String usernameGUI) {
-        Query<User> query = this.datastore.createQuery(User.class).field("username").equal(usernameGUI);
-        List<User> users = query.asList();
+        List<User> users = this.datastore.createQuery(User.class)
+                .field("username").equal(usernameGUI).asList();
         return users;
+    }
+
+    /**
+     * Finds all maintenance-type users in database and returns them as list
+     * @return all maintenance-type users as list
+     */
+    public List<User> findAdmins() {
+        List<User> admins = this.datastore.createQuery(User.class)
+                .filter("maintenance = ", true).asList();
+        
+        return admins;
     }
 
 }

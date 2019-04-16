@@ -47,7 +47,14 @@ public class Experiment {
      * @param notes String
      * @param theScience String
      */
-    public Experiment(String subject, String topic, Integer duration, String waitTime, String materials, String directions, String notes, String theScience) {
+    public Experiment(String subject, 
+            String topic, 
+            Integer duration, 
+            String waitTime, 
+            String materials, 
+            String directions, 
+            String notes, 
+            String theScience) {
         this.subject = subject;
         this.topic = topic;
         this.duration = duration;
@@ -215,7 +222,8 @@ public class Experiment {
      */
     public String shortInfo() {
         String info = "Experiment: " + this.topic + "\nDuration of experiment: "
-                + this.duration + " minutes\nWaiting time: " + this.waitTime + "\nMaterials: " + this.materials;
+                + this.duration + " minutes\nWaiting time: " + this.waitTime 
+                + "\nMaterials: " + this.materials;
 
         return info;
     }
@@ -226,9 +234,11 @@ public class Experiment {
      */
     @Override
     public String toString() {
-        String info = "\nSubject: " + this.subject + "\nExperiment: " + this.topic + "\nDuration of experiment: " 
-                + this.duration + " minutes\nWaiting time: " + this.waitTime + "\nMaterials: " + this.materials + "\nDirections: \n"
-                + this.directions + "\nNotes on this experiment: " + this.notes + "\nThe Science: " + this.theScience + "\n";
+        String info = "\nSubject: " + this.subject + "\nExperiment: " + this.topic 
+                + "\nDuration of experiment: " + this.duration + " minutes\nWaiting time: " 
+                + this.waitTime + "\nMaterials: " + this.materials + "\nDirections: \n"
+                + this.directions + "\nNotes on this experiment: " + this.notes 
+                + "\nThe Science: " + this.theScience + "\n";
         return info;
     }
     

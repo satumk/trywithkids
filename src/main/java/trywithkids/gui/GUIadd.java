@@ -42,27 +42,35 @@ public class GUIadd {
         setting.setSpacing(10);
         setting.setPadding(new Insets(20, 20, 20, 20));
         TextArea topic = new TextArea("");
-        topic.setPromptText("Compulsory: what do you want to name the experiment");
+        topic.setPromptText("Compulsory: what do you want to name the experiment?"
+                + " Maximum 50 words.");
         topic.setWrapText(true);
         TextArea waitTime = new TextArea("");
-        waitTime.setPromptText("Not compulsory: Is there a waiting period between the experiment and the results?");
+        waitTime.setPromptText("Not compulsory: Is there a waiting period between "
+                + "the experiment and the results? Maximum 200 words.");
         waitTime.setWrapText(true);
         TextArea materials = new TextArea("");
         materials.setWrapText(true);
-        materials.setPromptText("Compulsory: what materials are needed? Separate with // for easier viewing");
+        materials.setPromptText("Compulsory: what materials are needed? Separate "
+                + "with // for easier viewing. Maximum 1000 words.");
         TextArea directions = new TextArea("");
-        directions.setPromptText("Compulsory: How is the experiment conducted?");
+        directions.setPromptText("Compulsory: How is the experiment conducted?. "
+                + "Maximum 10000 words.");
         directions.setWrapText(true);
         TextArea notes = new TextArea("");
-        notes.setPromptText("Not compulsory: Is there something more that can help the experimentor?");
+        notes.setPromptText("Not compulsory: Is there something more that can "
+                + "help the experimentor? Maximum 10000 words.");
         notes.setWrapText(true);
         TextArea theScience = new TextArea("");
-        theScience.setPromptText("Not compulsory, but recommended: Why does the experiment work / what is the science behind it?");
+        theScience.setPromptText("Not compulsory, but recommended: Why does "
+                + "the experiment work / what is the science behind it? "
+                + "Maximum 10000 words.");
         theScience.setWrapText(true);
         
         //feedback buttons and labels for successful entry
         Button save = new Button("Save to database");
-        Label saved = new Label("Saved to database. To see your experiments, visit 'Browse all'");
+        Label saved = new Label("Saved to database. To see your experiments, "
+                + "visit 'Browse all'");
                 
         // Create a togglegroup of buttons for subject
         ToggleButton biology = new ToggleButton("Biology");
@@ -100,7 +108,9 @@ public class GUIadd {
         
         // Labels to GUIadd
         setting.getChildren().add(new Label("TO ADD NEW EXPERIMENTS:"));
-        setting.getChildren().add(new Label("Please fill out the information below"));
+        setting.getChildren().add(new Label("Please fill out the information below. We recommend "
+                + "you write these instructions in another program and then copy here, \n"
+                + "if you believe you may exceed maximum word limits below"));
         setting.getChildren().add(new Label("---------------------------"));
         setting.getChildren().add(new Label("Select a subject"));
         setting.getChildren().add(subject);
@@ -118,7 +128,11 @@ public class GUIadd {
         setting.getChildren().add(theScience);
         setting.getChildren().add(new Label("Additional notes"));
         setting.getChildren().add(notes);
-        setting.getChildren().add(new Label("When you press 'save', if everything is ok, you will see a 'saved to database' below save-button. If not, please make sure you have filled out everything"));
+        setting.getChildren().add(new Label("When you press 'save', if everything "
+                + "is ok, you will see a 'saved to database' below the save-button. "
+                + "\nIf not, you will receive an error message below the save-button"
+                + " \nand prompts in the textfields above to help you fix the problem."
+                + "\n Please make sure you have followed the instructions."));
         setting.getChildren().add(save);
  
         sp.setContent(setting);
@@ -159,11 +173,76 @@ public class GUIadd {
                 durationToggle = 100;
             }
             
-            // making sure all compulsory fields have values before adding them to database (in else)
-            if (topic.getText().isEmpty() || durationToggle == 0 || subjectToggle.contains("empty") || materials.getText().isEmpty() || directions.getText().isEmpty()) {
-                setting.getChildren().add(new Label("Please fill out all compulsory fields"));
+            String topicSave = topic.getText();
+            Boolean topicSaveOk = false;
+            if (topicSave.length() > 50) {
+                topic.clear();
+                topic.setPromptText("Please use a maximum of 50 words");
             } else {
-                this.tryWithKids.createExperimentAndSave(subjectToggle, topic.getText(), durationToggle, waitTime.getText(), materials.getText(), directions.getText(), notes.getText(), theScience.getText());
+                topicSaveOk = true;
+            }
+            
+            String materialsSave = materials.getText();
+            Boolean materialsSaveOK = false;
+            if (materialsSave.length() > 1000) {
+                materials.clear();
+                materials.setPromptText("Please use a maximum of 10 000 words");
+            } else {
+                materialsSaveOK = true;
+            }
+            
+            String directionsSave = directions.getText();
+            Boolean directionsSaveOK = false;
+            if (materialsSave.length() > 10000) {
+                materials.clear();
+                materials.setPromptText("Please use a maximum of 10 000 words");
+            } else {
+                directionsSaveOK = true;
+            }
+            
+            String waitTimeSave = waitTime.getText();
+            Boolean waitTimeSaveOK = false;
+            if (waitTimeSave.length() > 200) {
+                waitTime.clear();
+                waitTime.setPromptText("Please use a maximum of 200 words");
+            } else {
+                waitTimeSaveOK = true;
+            }
+            
+            String notesSave = notes.getText();
+            Boolean notesSaveOK = false;
+            if (notesSave.length() > 10000) {
+                notes.clear();
+                notes.setPromptText("Please use a maximum of 10 000 words");
+            } else {
+                notesSaveOK = true;
+            }
+            
+            String theScienceSave = theScience.getText();
+            Boolean theScienceSaveOK = false;
+            if (theScienceSave.length() > 10000) {
+                theScience.clear();
+                theScience.setPromptText("Please use a maximum of 10 000 words");
+            } else {
+                theScienceSaveOK = true;
+            }
+            
+            // making sure all compulsory fields have values before adding them to database (in else)
+            if (topicSave.isEmpty() || durationToggle == 0 || subjectToggle.contains("empty") 
+                    || materialsSave.isEmpty() || directionsSave.isEmpty()) {
+                setting.getChildren().add(new Label("Please fill out all compulsory fields"));
+            } else if (topicSaveOk == false || materialsSaveOK == false || directionsSaveOK == false 
+                    || waitTimeSaveOK == false || notesSaveOK == false || theScienceSaveOK == false) {
+                setting.getChildren().add(new Label("Please make sure you dont exceed maximum word limits"));
+            } else {
+                this.tryWithKids.createExperimentAndSave(subjectToggle, 
+                        topicSave, 
+                        durationToggle, 
+                        waitTimeSave, 
+                        materialsSave, 
+                        directionsSave, 
+                        notesSave, 
+                        theScienceSave);
                 setting.getChildren().add(saved);
             }
 
