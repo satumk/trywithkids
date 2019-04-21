@@ -84,16 +84,22 @@ public class GUIupdate {
                 Button no = new Button("Cancel");
                 TextArea topicTextarea = new TextArea("");
                 topicTextarea.setText(updateExp.getTopic());
+                topicTextarea.setWrapText(true);
                 TextArea waitTime = new TextArea("");
                 waitTime.setText(updateExp.getWaitTime());
+                waitTime.setWrapText(true);
                 TextArea materials = new TextArea("");
                 materials.setText(updateExp.getMaterials());
+                materials.setWrapText(true);
                 TextArea directions = new TextArea("");
                 directions.setText(updateExp.getDirections());
+                directions.setWrapText(true);
                 TextArea notes = new TextArea("");
                 notes.setText(updateExp.getNotes());
+                notes.setWrapText(true);
                 TextArea theScience = new TextArea("");
                 theScience.setText(updateExp.getTheScience());
+                theScience.setWrapText(true);
                 
                 // creating togglegroup for subject
                 ToggleButton biology = new ToggleButton("Biology");
@@ -148,7 +154,7 @@ public class GUIupdate {
                     fiveteen.selectedProperty().setValue(Boolean.TRUE);
                 } else if (updateExp.getDuration().equals(20)) {
                     twenty.selectedProperty().setValue(Boolean.TRUE);
-                } else if (updateExp.getDuration().equals(40)) {
+                } else if (updateExp.getDuration().equals(30)) {
                     thirty.selectedProperty().setValue(Boolean.TRUE);
                 } else if (updateExp.getDuration().equals(40)) {
                     fourty.selectedProperty().setValue(Boolean.TRUE);
@@ -169,19 +175,19 @@ public class GUIupdate {
                 newStage.getChildren().add(updating);
                 newStage.getChildren().add(new Label("Subject: "));
                 newStage.getChildren().add(subject);
-                newStage.getChildren().add(new Label("Topic:"));
+                newStage.getChildren().add(new Label("Topic (max 50 words):"));
                 newStage.getChildren().add(topicTextarea);
-                newStage.getChildren().add(new Label("Materials:"));
+                newStage.getChildren().add(new Label("Materials (max 1000 words:"));
                 newStage.getChildren().add(materials);
                 newStage.getChildren().add(new Label("Duration: "));
                 newStage.getChildren().add(duration);
-                newStage.getChildren().add(new Label("Waiting period:"));
+                newStage.getChildren().add(new Label("Waiting period (max 200 words):"));
                 newStage.getChildren().add(waitTime);  
-                newStage.getChildren().add(new Label("Directions:"));
+                newStage.getChildren().add(new Label("Directions (max 5000 words):"));
                 newStage.getChildren().add(directions);
-                newStage.getChildren().add(new Label("Notes:"));
+                newStage.getChildren().add(new Label("Notes (max 5000 words):"));
                 newStage.getChildren().add(notes);
-                newStage.getChildren().add(new Label("The Science:"));
+                newStage.getChildren().add(new Label("The Science (max 5000 words):"));
                 newStage.getChildren().add(theScience);
                 newStage.getChildren().add(no);
                 newStage.getChildren().add(update);
@@ -228,26 +234,83 @@ public class GUIupdate {
                         durationToggle = 60;
                     } 
                     
-                    //update database
-                    update(updateExp, subjectToggle, topicTextarea.getText(), 
-                            durationToggle, waitTime.getText(), materials.getText(), 
-                            directions.getText(), notes.getText(), theScience.getText());
+                    Boolean topicOk = false;
+                    Boolean materialsOK = false;
+                    Boolean directionsOK = false;
+                    Boolean waitOK = false;
+                    Boolean notesOK = false;
+                    Boolean scienceOK = false;
                     
-                    //update the list in UI
-                    experiments.get(index).setSubject(subjectToggle);
-                    experiments.get(index).setTopic(topicTextarea.getText());
-                    experiments.get(index).setDuration(durationToggle);
-                    experiments.get(index).setWaitTime(waitTime.getText());
-                    experiments.get(index).setMaterials(materials.getText());
-                    experiments.get(index).setDirections(directions.getText());
-                    experiments.get(index).setNotes(notes.getText());
-                    experiments.get(index).setTheScience(theScience.getText());
+                    String topicText = topicTextarea.getText();
+                    String materialsText = materials.getText();
+                    String directionsText = directions.getText();
                     
-                    //showing changes in UI
-                    listView.refresh();
+                    if (!topicText.isEmpty() && topicText.length() < 50) {
+                        topicOk = true;
+                    } else {
+                        topicTextarea.clear();
+                        topicTextarea.setPromptText("Please do not leave this empty or exceed the word limit of 50 words");
+                    }
                     
-                    //closing the popup
-                    newWindow.hide();
+                    if (!materialsText.isEmpty() && materialsText.length() < 1000) {
+                        materialsOK = true;
+                    } else {
+                        materials.clear();
+                        materials.setPromptText("Please do not leave this empty or exceed the word limit of 1000 words");
+                    }
+                    
+                    if (!directionsText.isEmpty() && directionsText.length() < 5000) {
+                        directionsOK = true;
+                    } else {
+                        directions.clear();
+                        directions.setPromptText("Please do not leave this empty or exceed the word limit of 5000 words");
+                    }
+                    
+                    if (waitTime.getText().length() > 200) {
+                        waitTime.clear();
+                        waitTime.setPromptText("Please do not leave this empty or exceed the word limit of 200 words");
+                    } else {
+                        waitOK = true;
+                    }
+                    
+                    if (notes.getText().length() > 5000) {
+                        notes.clear();
+                        notes.setPromptText("Please do not leave this empty or exceed the word limit of 5000 words");
+                    } else {
+                        notesOK = true;
+                    }
+                    
+                    if (theScience.getText().length() > 5000) {
+                        theScience.clear();
+                        theScience.setPromptText("Please do not leave this empty or exceed the word limit of 5000 words");
+                    } else {
+                        scienceOK = true;
+                    }
+                    
+                    if (topicOk == true && materialsOK == true && directionsOK == true
+                            && waitOK == true && notesOK == true && scienceOK == true) {
+                        //update database
+                        update(updateExp, subjectToggle, topicText, 
+                                durationToggle, waitTime.getText(), materialsText, 
+                                directionsText, notes.getText(), theScience.getText());
+                        
+                        //update the list in UI
+                        experiments.get(index).setSubject(subjectToggle);
+                        experiments.get(index).setTopic(topicText);
+                        experiments.get(index).setDuration(durationToggle);
+                        experiments.get(index).setWaitTime(waitTime.getText());
+                        experiments.get(index).setMaterials(materialsText);
+                        experiments.get(index).setDirections(directionsText);
+                        experiments.get(index).setNotes(notes.getText());
+                        experiments.get(index).setTheScience(theScience.getText());
+
+                        //showing changes in UI
+                        listView.refresh();
+
+                        //closing the popup
+                        newWindow.hide();
+                    } 
+
                 });
 
                 no.setOnAction((event) -> {

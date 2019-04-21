@@ -2,8 +2,8 @@
 package trywithkids.domain;
 
 import com.mongodb.MongoClient;
-import java.util.ArrayList;
 import java.util.List;
+import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -521,5 +521,13 @@ public class TryWithKidsTest {
         assertEquals(0, t.findAllUsers().size());
         t.isMaintenancePresent();
         assertEquals(1, t.findAllUsers().size());   
+    }
+    
+    @Test
+    public void returnUser() {
+        t.addDefaultMaintenance();
+        User admin = t.findAllUsers().get(0);
+        ObjectId adminid = admin.getId();
+        assertEquals(adminid, t.findUser(admin).getId());
     }
 }

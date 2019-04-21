@@ -112,6 +112,9 @@ public class GUIowninfo {
                 this.tryWithKids.changePassword(user, newPW);
                 user.setPassword(newPW);
                 Label saved = new Label("New password saved");
+                newPasswd.clear();
+                newAgain.clear();
+                oldPasswd.clear();
                 change.getChildren().add(saved);
             }
         });
@@ -136,6 +139,8 @@ public class GUIowninfo {
      * @return String user info
      */
     public String getInfo() {
+        // aiemmin oli return this.user.toString();
+        this.user = this.tryWithKids.findUser(this.user);
         return this.user.toString();
     }
 }

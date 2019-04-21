@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.types.ObjectId;
 import trywithkids.database.Database;
 import trywithkids.database.DatabaseUsers;
 
@@ -524,6 +525,10 @@ public class TryWithKids {
                 + "applied, but otherwise acts as a liquid.");
         four.setNotes("Difficult to clean as it acts as solid when force is applied");
         saveToDatabase(four);
+    }
+
+    public User findUser(User user) {
+        return this.userDatabase.findUser(user);
     }
 
     

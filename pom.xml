@@ -40,7 +40,7 @@
                     <transformers>
                         <transformer implementation=
                       "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <mainClass>trywithkids.gui.GUI.java</mainClass>
+                            <mainClass>trywithkids.gui.GUI</mainClass>
                         </transformer>
                     </transformers>
                 </configuration>

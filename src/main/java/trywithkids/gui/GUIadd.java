@@ -55,16 +55,16 @@ public class GUIadd {
                 + "with // for easier viewing. Maximum 1000 words.");
         TextArea directions = new TextArea("");
         directions.setPromptText("Compulsory: How is the experiment conducted?. "
-                + "Maximum 10000 words.");
+                + "Maximum 5000 words.");
         directions.setWrapText(true);
         TextArea notes = new TextArea("");
         notes.setPromptText("Not compulsory: Is there something more that can "
-                + "help the experimentor? Maximum 10000 words.");
+                + "help the experimentor? Maximum 5000 words.");
         notes.setWrapText(true);
         TextArea theScience = new TextArea("");
         theScience.setPromptText("Not compulsory, but recommended: Why does "
                 + "the experiment work / what is the science behind it? "
-                + "Maximum 10000 words.");
+                + "Maximum 5000 words.");
         theScience.setWrapText(true);
         
         //feedback buttons and labels for successful entry
@@ -110,7 +110,8 @@ public class GUIadd {
         setting.getChildren().add(new Label("TO ADD NEW EXPERIMENTS:"));
         setting.getChildren().add(new Label("Please fill out the information below. We recommend "
                 + "you write these instructions in another program and then copy here, \n"
-                + "if you believe you may exceed maximum word limits below"));
+                + "if you believe you may exceed maximum word limits below. Fill out all compulsory fields:\n"
+                + "subject, topic, materials, duration, and directions."));
         setting.getChildren().add(new Label("---------------------------"));
         setting.getChildren().add(new Label("Select a subject"));
         setting.getChildren().add(subject);
@@ -132,6 +133,8 @@ public class GUIadd {
                 + "is ok, you will see a 'saved to database' below the save-button. "
                 + "\nIf not, you will receive an error message below the save-button"
                 + " \nand prompts in the textfields above to help you fix the problem."
+                + "\nForgetting to select the subject or duration will not give a error message. However, "
+                + "experiment will not be saved to database without this information."
                 + "\n Please make sure you have followed the instructions."));
         setting.getChildren().add(save);
  
@@ -186,16 +189,16 @@ public class GUIadd {
             Boolean materialsSaveOK = false;
             if (materialsSave.length() > 1000) {
                 materials.clear();
-                materials.setPromptText("Please use a maximum of 10 000 words");
+                materials.setPromptText("Please use a maximum of 1000 words");
             } else {
                 materialsSaveOK = true;
             }
             
             String directionsSave = directions.getText();
             Boolean directionsSaveOK = false;
-            if (materialsSave.length() > 10000) {
-                materials.clear();
-                materials.setPromptText("Please use a maximum of 10 000 words");
+            if (directionsSave.length() > 5000) {
+                directions.clear();
+                directions.setPromptText("Please use a maximum of 5 000 words");
             } else {
                 directionsSaveOK = true;
             }
@@ -211,18 +214,18 @@ public class GUIadd {
             
             String notesSave = notes.getText();
             Boolean notesSaveOK = false;
-            if (notesSave.length() > 10000) {
+            if (notesSave.length() > 5000) {
                 notes.clear();
-                notes.setPromptText("Please use a maximum of 10 000 words");
+                notes.setPromptText("Please use a maximum of 5 000 words");
             } else {
                 notesSaveOK = true;
             }
             
             String theScienceSave = theScience.getText();
             Boolean theScienceSaveOK = false;
-            if (theScienceSave.length() > 10000) {
+            if (theScienceSave.length() > 5000) {
                 theScience.clear();
-                theScience.setPromptText("Please use a maximum of 10 000 words");
+                theScience.setPromptText("Please use a maximum of 5 000 words");
             } else {
                 theScienceSaveOK = true;
             }
