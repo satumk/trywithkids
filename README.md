@@ -24,6 +24,14 @@ Mongo java-driver version is 3.10.1 and Morphia version is 1.4.0.
 MongoDB is 4.0 Community edition.
 The computer operating system used in development is MacOS Mojave.
 
+## Licenses
+Morphia is licensed through Apache License 2.0, which allows its use in private 
+and public works with the same license or with another license. 
+iText used in creating pdf-documents is licensed under AGPL-license, that 
+requires a mention of the source code and the licence in each pdf-document 
+created. Also all modifications should be made public. No such modifications are 
+created in this project.
+
 ## Development 
 
 ### Iteration 1:

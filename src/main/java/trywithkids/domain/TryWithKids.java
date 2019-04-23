@@ -13,14 +13,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.bson.types.ObjectId;
 import trywithkids.database.Database;
 import trywithkids.database.DatabaseUsers;
 
 /**
- * @author satu
  * This class contains the main logic of the application. It also connects to the class Database, 
  * that discusses with the MongoDB database.
+ * @author satu
+ * 
  */
 public class TryWithKids {
     private Database database;
@@ -79,12 +79,10 @@ public class TryWithKids {
             return 1;
         } else if (!users.get(0).getPassword().equals(passwdGUI)) {
             return 3;
-        } else if (users.size()==1 && users.get(0).getPassword().equals(passwdGUI)) {
+        } else {
             this.user = users.get(0);
             return 4;
-        } else {
-            return 5;
-        }
+        } 
     }
     
     /**
@@ -238,6 +236,8 @@ public class TryWithKids {
         Chunk science = new Chunk(exp.getTheScience(), font);
         Chunk notesHead = new Chunk("\nNotes:", font3);
         Chunk notes = new Chunk(exp.getNotes(), font);
+        Chunk producer = new Chunk("\n\nThis pdf is created with the code library iText 7 Community made"
+                + " available through AGPL-lisence.", font);
         
         Paragraph info = new Paragraph();
         info.add(chunk);
@@ -265,11 +265,15 @@ public class TryWithKids {
         sciencePara.add(scienceHead);
         sciencePara.add(science);
         
+        Paragraph license = new Paragraph();
+        license.add(producer);
+        
         document.add(info);
         document.add(durationPara);
         document.add(materialsPara);
         document.add(direcPara);
         document.add(sciencePara);
+        document.add(license);
 
         document.close();
     }

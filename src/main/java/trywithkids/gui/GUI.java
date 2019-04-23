@@ -172,7 +172,7 @@ public class GUI extends Application {
                 
             }
             
-            if (successOfLogin == 1 || successOfLogin == 5) {
+            if (successOfLogin == 1) {
                 System.out.println("success of login problem = " + successOfLogin);
             }    
         });

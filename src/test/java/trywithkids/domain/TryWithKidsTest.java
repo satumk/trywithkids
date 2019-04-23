@@ -523,6 +523,9 @@ public class TryWithKidsTest {
         assertEquals(1, t.findAllUsers().size());   
     }
     
+    /**
+     * Tests if findUser finds the correct user
+     */
     @Test
     public void returnUser() {
         t.addDefaultMaintenance();

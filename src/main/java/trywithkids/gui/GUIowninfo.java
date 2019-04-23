@@ -135,7 +135,7 @@ public class GUIowninfo {
     }
     
     /**
-     * returns the toString-method of this.user
+     * returns the toString-method of this.user - updated from the database.
      * @return String user info
      */
     public String getInfo() {
